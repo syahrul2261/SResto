@@ -14,7 +14,7 @@
     <!-- <link rel="stylesheet" href="<?= base_url('assets/fontawesome/css/all.css') ?>">  -->
     
     <!-- Flickity  -->
-    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <!-- <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css"> -->
 
     <!-- Manual CSS -->
     <link rel="stylesheet" href="<?= base_url('assets/mdb5/css/mdb.min.css') ?>">
@@ -25,13 +25,28 @@
     <!-- Style -->
     <link rel="stylesheet" href="<?= base_url('assets/multiselect-20/css/style.css') ?>">
     
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css"/>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css"> -->
     <link rel="stylesheet" href="<?= base_url('assets/style.css') ?>">
+    <link src="<?= base_url('assets/flickity.min.css') ?>"></link>
+    <link src="<?= base_url('assets/dataTables.min.css') ?>"></link>
+    <link src="<?= base_url('assets/dataTables.bootstrap5.min.css') ?>"></link>
 
 
   </head>
   <style>
+    body{
+      font-family: monospace;
+    }
+    @media print {
+  body * {
+    visibility: hidden;
+  }
+  #print{
+    visibility: visible;
+  }
+}
+
     .shadow-box{
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
@@ -73,6 +88,22 @@
     .caret_laporan1{
       transition: transform 1s;
       transform: rotate(-180deg);
+    }
+
+    .p1{
+      transition: transform 1s;
+    }
+    .p2{
+      transition: transform 1s;
+      transform: rotate(-180deg);
+    }
+
+    .h1{
+      display: none;
+    }
+
+    .h2{
+      display: block;
     }
   </style>
 <body>

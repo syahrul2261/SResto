@@ -14,5 +14,13 @@ class AkunModel extends CI_Model
         return $this->db->get_where($this->_table, ["id_user" => $id])->row();
     }
 
+    public function getBy($code)
+    {
+        $this->db->select('*');
+        $this->db->from('user');
+        $this->db->where('akses', $code);
+        return $this->db->get()->result();
+    }
+
 
 }

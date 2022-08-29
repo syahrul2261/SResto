@@ -15,7 +15,7 @@ class Home extends CI_Controller {
 			if($this->session->userdata('akses') == 'manager'){
                 $data = array(
                     'title' => 'manager - HOME',
-                    'content' => 'manager/home',
+                    'content' => 'home',
 					'laporan_tahunan' => $this->DashboardModel->laporan_tahunan(),
 					'laporan_tahunan_lalu' => $this->DashboardModel->laporan_tahunan_lalu(),
 					'laporan_bulanan' => $this->DashboardModel->laporan_bulanan(),
@@ -23,7 +23,11 @@ class Home extends CI_Controller {
 					'produk_terlaris_bulan' => $this->DashboardModel->produk_terlaris_bulan(),
 					'produk_terlaris_hari' => $this->DashboardModel->produk_terlaris_hari(),
 					'penghasilan_bulan' => $this->DashboardModel->penghasilan_bulan(),
-					'penghasilan_hari' => $this->DashboardModel->penghasilan_hari()
+					'penghasilan_hari' => $this->DashboardModel->penghasilan_hari(),
+					'laporan_produk_terlaris_bulan' => $this->DashboardModel->laporan_produk_terlaris_bulan(),
+					'laporan_produk_terlaris_bulan_lalu' => $this->DashboardModel->laporan_produk_terlaris_bulan_lalu(),
+					'laporan_produk_tidak_laris_bulan' => $this->DashboardModel->laporan_produk_tidak_laris_bulan(),
+					'laporan_produk_tidak_laris_bulan_lalu' => $this->DashboardModel->laporan_produk_tidak_laris_bulan_lalu()
                 );
 				$this->load->view('manager/template', $data);
 			} else{

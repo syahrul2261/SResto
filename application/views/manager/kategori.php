@@ -3,36 +3,41 @@
 </div>
 <div class="card shadow-box fw-bold">
     <div class="card-header bg-primary text-light">
+        <a href="<?= site_url('manager/kategori/cetak') ?>" id="pdf" class="btn btn-sm btn-light mt-1"  target="_blank">CETAK PDF</a>
+        <a href="<?= site_url('manager/kategori/export') ?>" id="excel" class="btn btn-sm btn-light mt-1">CETAK XLSX</a>
+        <a class="btn btn-sm btn-light mt-1" href="<?= site_url('manager/kategori/print') ?>" id="print" target="_blank">PRINT</a>
         <div class="float-end">
-            <div class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#add_kategori">ADD</div>
-            <a href="<?= site_url('manager/kategori/delete_all') ?>" class="btn btn-sm btn-light">DELETE</a>
+            <div class="btn btn-sm btn-light mt-1" data-bs-toggle="modal" data-bs-target="#add_kategori">ADD</div>
+            <a href="<?= site_url('manager/kategori/delete_all') ?>" class="btn btn-sm btn-light mt-1">DELETE</a>
         </div>
     </div>
     <div class="card-body">
-        <table id="example" class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">KATEGORI</th>
-                    <th scope="col">AKSI</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $i = 0; 
-                foreach ($get_kategori as $k): 
-                    $i++;
-                    ?>
-                <tr>
-                    <td><?= $i ?></td>
-                    <td><?= $k->nama_kategori ?></td>
-                    <td class="text-center" style="width: 150px">
-                        <div class="btn btn-sm btn-warning mb-1" data-bs-toggle="modal" data-bs-target="#update_kategori<?= $k->id_kategori ?>">EDIT</div>
-                        <a onclick="return confirm('Apa Anda Yakin Untuk Menghapus Data Ini?')" href="<?= site_url('manager/kategori/delete/'.$k->id_kategori) ?>" class="btn btn-sm btn-danger mb-1">HAPUS</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                    <div class="card overflow-auto">
+                        <table id="example" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">KATEGORI</th>
+                                    <th scope="col">AKSI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $i = 0; 
+                                foreach ($get_kategori as $k): 
+                                    $i++;
+                                    ?>
+                                <tr>
+                                    <td><?= $i ?></td>
+                                    <td><?= $k->nama_kategori ?></td>
+                                    <td class="text-center" style="width: 150px">
+                                        <div class="btn btn-sm btn-warning mb-1" data-bs-toggle="modal" data-bs-target="#update_kategori<?= $k->id_kategori ?>">EDIT</div>
+                                        <a onclick="return confirm('Apa Anda Yakin Untuk Menghapus Data Ini?')" href="<?= site_url('manager/kategori/delete/'.$k->id_kategori) ?>" class="btn btn-sm btn-danger mb-1">HAPUS</a>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+</div>
     </div>
 </div>
 <!-- Modal -->

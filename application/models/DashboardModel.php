@@ -371,18 +371,49 @@ class DashboardModel extends CI_Model
         return $query->row();
     }
 
+    public function laporan_produk_terlaris_bulan()
+    {
+        $query = $this->db->query('SELECT nama_produk, sum(qty) as a, kategori.id_kategori,kategori.nama_kategori, tgl_transaksi FROM `pesanan` JOIN `produk` JOIN `kategori`JOIN `detail_pesanan` WHERE pesanan.id_produk = produk.id_produk AND MONTH(tgl_transaksi) = MONTH(NOW()) AND detail_pesanan.id_detail_pesanan = pesanan.id_detail_pesanan GROUP BY nama_produk ORDER BY sum(qty) DESC LIMIT 5');
+
+        return $query;
+    }
+
+    public function laporan_produk_terlaris_bulan_lalu()
+    {
+        $query = $this->db->query('SELECT nama_produk, sum(qty) as a, kategori.id_kategori,kategori.nama_kategori, tgl_transaksi FROM `pesanan` JOIN `produk` JOIN `kategori`JOIN `detail_pesanan` WHERE pesanan.id_produk = produk.id_produk AND MONTH(tgl_transaksi) = MONTH(NOW())-1 AND detail_pesanan.id_detail_pesanan = pesanan.id_detail_pesanan GROUP BY nama_produk ORDER BY sum(qty) DESC LIMIT 5');
+
+        return $query;
+    }
+
+    public function laporan_produk_tidak_laris_bulan()
+    {
+        $query = $this->db->query('SELECT nama_produk, sum(qty) as a, kategori.id_kategori,kategori.nama_kategori, tgl_transaksi FROM `pesanan` JOIN `produk` JOIN `kategori`JOIN `detail_pesanan` WHERE pesanan.id_produk = produk.id_produk AND MONTH(tgl_transaksi) = MONTH(NOW()) AND detail_pesanan.id_detail_pesanan = pesanan.id_detail_pesanan GROUP BY nama_produk ORDER BY sum(qty) ASC LIMIT 5 ');
+
+        return $query;
+    }
+
+    public function laporan_produk_tidak_laris_bulan_lalu()
+    {
+        $query = $this->db->query('SELECT nama_produk, sum(qty) as a, kategori.id_kategori,kategori.nama_kategori, tgl_transaksi FROM `pesanan` JOIN `produk` JOIN `kategori`JOIN `detail_pesanan` WHERE pesanan.id_produk = produk.id_produk AND MONTH(tgl_transaksi) = MONTH(NOW())-1 AND detail_pesanan.id_detail_pesanan = pesanan.id_detail_pesanan GROUP BY nama_produk ORDER BY sum(qty) ASC LIMIT 5');
+
+        return $query;
+    }
+
     public function produk_terlaris_bulan()
     {
         $query = $this->db->query('SELECT nama_produk, sum(qty) as a, kategori.id_kategori,kategori.nama_kategori, tgl_transaksi FROM `pesanan` JOIN `produk` JOIN `kategori`JOIN `detail_pesanan` WHERE pesanan.id_produk = produk.id_produk AND MONTH(tgl_transaksi) = MONTH(NOW()) AND detail_pesanan.id_detail_pesanan = pesanan.id_detail_pesanan GROUP BY nama_produk ORDER BY qty DESC LIMIT 1');
-
-        return $query->row();
+        if($query->row() == null){
+            return '<h6 class="fw-bold">Belum Terjadi Transaksi</h6>';
+        } else {
+        return $query->row()->nama_produk;
+        }
     }
 
     public function produk_terlaris_hari()
     {
         $query = $this->db->query('SELECT nama_produk, sum(qty) as a, kategori.id_kategori,kategori.nama_kategori, tgl_transaksi FROM `pesanan` JOIN `produk` JOIN `kategori`JOIN `detail_pesanan` WHERE pesanan.id_produk = produk.id_produk AND DAY(tgl_transaksi) = DAY(NOW()) AND detail_pesanan.id_detail_pesanan = pesanan.id_detail_pesanan GROUP BY nama_produk ORDER BY qty DESC LIMIT 1');
         if($query->row() == null){
-            return 'Belum Terjadi Transaksi';
+            return '<h6 class="fw-bold">Belum Terjadi Transaksi</h6>';
         } else {
             return $query->row()->nama_produk;
         }
@@ -394,7 +425,7 @@ class DashboardModel extends CI_Model
         tgl_transaksi, SUM(total_harga) as t FROM detail_pesanan WHERE MONTH(tgl_transaksi) = MONTH(NOW()) GROUP BY MONTH(tgl_transaksi);
         ');
         if($query->row() == null){
-            return 'Belum Terjadi Transaksi';
+            return '<h6 class="fw-bold">Belum Terjadi Transaksi</h6>';
         } else {
             return number_format($query->row()->t);
         }
@@ -406,7 +437,7 @@ class DashboardModel extends CI_Model
         tgl_transaksi, SUM(total_harga) as t FROM detail_pesanan WHERE DAY(tgl_transaksi) = DAY(NOW()) GROUP BY DAY(tgl_transaksi);
         ');
         if($query->row() == null){
-            return 'Belum Terjadi Transaksi';
+            return '<h6 class="fw-bold">Belum Terjadi Transaksi</h6>';
         } else {
             return number_format($query->row()->t);
         }

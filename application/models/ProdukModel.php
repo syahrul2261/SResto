@@ -41,6 +41,16 @@ class ProdukModel extends CI_Model
         return $this->db->get_where($this->_table, ["id_produk" => $id])->row();
     }
 
+    public function getBy($code)
+    {
+        $this->db->select(['a.id_produk', 'a.nama_produk', 'a.harga_produk', 'a.foto_produk', 'a.stock', 'b.id_kategori', 'b.nama_kategori']);
+        $this->db->from('kategori b');
+        $this->db->join('produk a', 'a.id_kategori = b.id_kategori'); 
+        $this->db->where('nama_kategori', $code);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function save()
     {
         $post = $this->input->post();

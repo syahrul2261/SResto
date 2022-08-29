@@ -15,7 +15,7 @@ class Home extends CI_Controller {
 			if($this->session->userdata('akses') == 'kasir'){
                 $data = array(
                     'title' => 'KASIR - HOME',
-                    'content' => 'kasir/home',
+                    'content' => 'home',
 					// 'get_tahunan_1' => $this->DashboardModel->getTahunan_1(),
 					// 'get_tahunan_2' => $this->DashboardModel->getTahunan_2(),
 					// 'get_tahunan_3' => $this->DashboardModel->getTahunan_3(),
@@ -35,7 +35,11 @@ class Home extends CI_Controller {
 					'produk_terlaris_bulan' => $this->DashboardModel->produk_terlaris_bulan(),
 					'produk_terlaris_hari' => $this->DashboardModel->produk_terlaris_hari(),
 					'penghasilan_bulan' => $this->DashboardModel->penghasilan_bulan(),
-					'penghasilan_hari' => $this->DashboardModel->penghasilan_hari()
+					'penghasilan_hari' => $this->DashboardModel->penghasilan_hari(),
+					'laporan_produk_terlaris_bulan' => $this->DashboardModel->laporan_produk_terlaris_bulan(),
+					'laporan_produk_terlaris_bulan_lalu' => $this->DashboardModel->laporan_produk_terlaris_bulan_lalu(),
+					'laporan_produk_tidak_laris_bulan' => $this->DashboardModel->laporan_produk_tidak_laris_bulan(),
+					'laporan_produk_tidak_laris_bulan_lalu' => $this->DashboardModel->laporan_produk_tidak_laris_bulan_lalu()
                 );
 				$this->load->view('kasir/template', $data);
 			} else{

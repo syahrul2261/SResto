@@ -1,12 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+require('./vendor/autoload.php');
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Stock extends CI_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('ProdukModel');
+		$this->load->model(array('ProdukModel', 'KategoriModel'));
 	}
 
 	public function index()
@@ -18,6 +22,7 @@ class Stock extends CI_Controller {
                     'content' => 'manager/Stock'
                 );
 				$data['get_produk'] = $this->ProdukModel->getALL();
+				$data['get_kategori'] = $this->KategoriModel->getALL();
 				$this->load->view('manager/template', $data);
 			} else{
 				$data['title'] = 'AKSES!!!';
@@ -61,5 +66,75 @@ class Stock extends CI_Controller {
 		$this->db->where('id_produk', $post['id_produk']);
 		$this->db->update('produk', $data);
 		redirect(site_url('manager/stock'));
+	}
+
+		public function print($code)
+	{
+		if($code == "true"){
+			$this->data['get_produk'] = $this->ProdukModel->getALL();
+		} else {
+			$this->data['get_produk'] = $this->ProdukModel->getBy($code);
+		}
+		$this->load->view('cetak/stock',$this->data);
+	}
+	
+	public function cetak($code)
+	{
+		$this->load->library('pdfgenerator');
+    
+        // title dari pdf
+        $this->data['title_pdf'] = 'DATA STOCK PRODUK';
+		if($code == "true"){
+			$this->data['get_produk'] = $this->ProdukModel->getALL();
+		} else {
+			$this->data['get_produk'] = $this->ProdukModel->getBy($code);
+		}
+        
+        // filename dari pdf ketika didownload
+        $file_pdf = 'DATA STOCK PRODUK';
+        // setting paper
+        $paper = 'A4';
+        //orientasi paper potrait / landscape
+        $orientation = "portrait";
+        
+		$html = $this->load->view('cetak/stock',$this->data, true);	    
+        
+        // run dompdf
+        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+		redirect(site_url('manager/stock'));
+	}
+
+	function export($code)
+	{
+		if($code == "true"){
+			$get_produk= $this->ProdukModel->getAll();
+		} else {
+			$get_produk= $this->ProdukModel->getBy($code);
+		}
+
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$sheet->setCellValue('A1', 'NO');
+		$sheet->setCellValue('B1', 'NAMA');
+		$sheet->setCellValue('C1', 'STOCK');
+		
+
+		$no = 1;
+		$x = 2;
+		foreach($get_produk as $row)
+		{
+			$sheet->setCellValue('A'.$x, $no++);
+			$sheet->setCellValue('B'.$x, $row->nama_produk);
+			$sheet->setCellValue('C'.$x, $row->stock);
+			$x++;
+		}
+		$writer = new Xlsx($spreadsheet);
+		$filename = 'DATA STOCK PRODUK';
+		
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+		header('Cache-Control: max-age=0');
+
+		$writer->save('php://output');
 	}
 }

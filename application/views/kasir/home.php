@@ -60,8 +60,74 @@
         </div>
     </div>
 </div>
+
+
                 <div class="row">
-                    <div class="col">
+                    <div class="col-6">
+                        <div class="card rounded-1 shadow-box mx-2 my-2">
+                            <div class="card-header bg-primary text-center fw-bold text-light">
+                                Produk Terlaris Bulan Ini
+                            </div>
+                            <div class="card-body">
+                                <canvas id="myChart2" style="width:100%"></canvas>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card rounded-1 shadow-box mx-2 my-2">
+                            <div class="card-header bg-primary text-center fw-bold text-light">
+                                Produk Terlaris Bulan Lalu
+                            </div>
+                            <div class="card-body">
+                                <canvas id="myChart3" style="width:100%"></canvas>
+                                
+                            </div>
+                     
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="card rounded-1 shadow-box mx-2 my-2">
+                                            <div class="card-header bg-primary text-center fw-bold text-light">
+                                                Produk Tidak Laris Bulan Ini
+                                            </div>
+                                            <div class="card-body">
+                                                <canvas id="myChart4" style="width:100%"></canvas>
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="card rounded-1 shadow-box mx-2 my-2">
+                                            <div class="card-header bg-primary text-center fw-bold text-light">
+                                                Produk Tidak Laris Bulan Lalu
+                                            </div>
+                                            <div class="card-body">
+                                                <canvas id="myChart5" style="width:100%"></canvas>
+                                                
+                                            </div>
+                                     
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-6">
                         <div class="card rounded-1 shadow-box mx-2 my-2">
                             <div class="card-header bg-primary text-center fw-bold text-light">
                                 Pendapatan Tahun ini
@@ -73,7 +139,7 @@
                             
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-6">
                         <div class="card rounded-1 shadow-box mx-2 my-2">
                             <div class="card-header bg-primary text-center fw-bold text-light">
                                 Pendapatan Bulan Ini
@@ -160,6 +226,191 @@
     document.getElementById('myChart'),
     config
   );
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+  const label2 = [
+<?php foreach($laporan_produk_terlaris_bulan->result() as $a): ?>
+    '<?= $a->nama_produk ?>',
+    <?php endforeach; ?>
+];
+
+const data2 = {
+labels: label2,
+datasets: [
+  {
+  label: 'Pendapatan Tahun Ini',
+  backgroundColor: 'rgb(255, 99, 132)',
+  borderColor: 'rgb(255, 99, 132)',
+  data: [
+      <?php $i=1; foreach($laporan_produk_terlaris_bulan->result() as $a): ?>
+          <?= $a->a ?><?= ($i++ == $laporan_produk_terlaris_bulan->num_rows() )?"":"," ?>
+          <?php endforeach; ?>
+          
+        ],
+}
+]
+};
+
+const config2 = {
+type: 'bar',
+data: data2,
+options: {}
+};
+
+const myChart2 = new Chart(
+document.getElementById('myChart2'),
+config2
+);
+
+
+
+
+
+
+
+
+const label4 = [
+<?php foreach($laporan_produk_tidak_laris_bulan->result() as $a): ?>
+  '<?= $a->nama_produk ?>',
+  <?php endforeach; ?>
+];
+
+const data4 = {
+labels: label4,
+datasets: [
+{
+label: 'Pendapatan Tahun Ini',
+backgroundColor: 'rgb(255, 99, 132)',
+borderColor: 'rgb(255, 99, 132)',
+data: [
+    <?php $i=1; foreach($laporan_produk_tidak_laris_bulan->result() as $a): ?>
+        <?= $a->a ?><?= ($i++ == $laporan_produk_tidak_laris_bulan->num_rows() )?"":"," ?>
+        <?php endforeach; ?>
+        
+      ],
+}
+]
+};
+
+const config4 = {
+type: 'bar',
+data: data4,
+options: {}
+};
+
+const myChart4 = new Chart(
+document.getElementById('myChart4'),
+config4
+);
+
+
+
+const label5 = [
+<?php foreach($laporan_produk_tidak_laris_bulan_lalu->result() as $a): ?>
+  '<?= $a->nama_produk ?>',
+  <?php endforeach; ?>
+];
+
+const data5 = {
+labels: label5,
+datasets: [
+{
+label: 'Pendapatan Tahun Ini',
+backgroundColor: 'rgb(255, 99, 132)',
+borderColor: 'rgb(255, 99, 132)',
+data: [
+    <?php $i=1; foreach($laporan_produk_tidak_laris_bulan_lalu->result() as $a): ?>
+        <?= $a->a ?><?= ($i++ == $laporan_produk_tidak_laris_bulan_lalu->num_rows() )?"":"," ?>
+        <?php endforeach; ?>
+        
+      ],
+}
+]
+};
+
+const config5 = {
+type: 'bar',
+data: data5,
+options: {}
+};
+
+const myChart5 = new Chart(
+document.getElementById('myChart5'),
+config5
+);
+
+
+
+
+
+const label3 = [
+<?php foreach($laporan_produk_terlaris_bulan_lalu->result() as $a): ?>
+  '<?= $a->nama_produk ?>',
+  <?php endforeach; ?>
+];
+
+const data3 = {
+labels: label3,
+datasets: [
+{
+label: 'Pendapatan Tahun Ini',
+backgroundColor: 'rgb(255, 99, 132)',
+borderColor: 'rgb(255, 99, 132)',
+data: [
+    <?php $i=1; foreach($laporan_produk_terlaris_bulan_lalu->result() as $a): ?>
+        <?= $a->a ?><?= ($i++ == $laporan_produk_terlaris_bulan_lalu->num_rows() )?"":"," ?>
+        <?php endforeach; ?>
+        
+      ],
+}
+]
+};
+
+const config3 = {
+type: 'bar',
+data: data3,
+options: {}
+};
+
+const myChart3 = new Chart(
+document.getElementById('myChart3'),
+config3
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const labels1 = [
     '1',

@@ -1,14 +1,18 @@
 </body>
 
 <script src="<?= base_url('assets/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+<!-- <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://kit.fontawesome.com/9d0ac98408.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
 
-
+<script src="<?= base_url('assets/flickity.pkgd.min.js') ?>"></script>
+<script src="<?= base_url('assets/jquery-3.6.0.min.js') ?>"></script>
+<script src="<?= base_url('assets/jquery.dataTables.min.js') ?>"></script>
+<script src="<?= base_url('assets/fontawesome.js') ?>"></script>
+<script src="<?= base_url('assets/chart.js') ?>"></script>
 <script src="<?= base_url('assets/multiselect-20/js/chosen.jquery.min.js') ?>"></script>
 <script src="<?= base_url('assets/multiselect-20/js/main.js') ?>"></script>
 
@@ -20,13 +24,21 @@
 
 
 
+
   function sidebar (){
     const sidebar = document.getElementById('sidebar');
     sidebar.classList.toggle('sidebar2');
   }
   
   $(document).ready(function () {
-    $("#example").DataTable();
+    $("#example").DataTable({
+          "bPaginate": false,
+    "bLengthChange": true,
+    "bFilter": true,
+    "bInfo": false,
+    "bAutoWidth": true,
+    "fixedHeader": true,
+    });
   });
   
   function side_drop (){
@@ -242,6 +254,8 @@
   $('.modal-after').click(() => {
     location.href = "<?= site_url("kasir/pesanan") ?>";
   });
+
+
   
 
 

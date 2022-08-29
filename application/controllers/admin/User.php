@@ -29,6 +29,106 @@ class 	User extends CI_Controller {
 		}
 	}
 
+
+
+		public function print($code)
+	{
+		if($code == "true"){
+			$this->data['get_user'] = $this->AkunModel->getALL();
+		} else {
+			$this->data['get_user'] = $this->AkunModel->getBy($code);
+		}
+		$this->load->view('cetak/USER',$this->data);
+	}
+	
+	public function cetak($code)
+	{
+		$this->load->library('pdfgenerator');
+    
+        // title dari pdf
+        $this->data['title_pdf'] = 'DATA USER';
+		if($code == "true"){
+			$this->data['get_user'] = $this->AkunModel->getALL();
+		} else {
+			$this->data['get_user'] = $this->AkunModel->getBy($code);
+		}
+        
+        // filename dari pdf ketika didownload
+        $file_pdf = 'DATA USER';
+        // setting paper
+        $paper = 'A4';
+        //orientasi paper potrait / landscape
+        $orientation = "portrait";
+        
+		$html = $this->load->view('cetak/USER',$this->data, true);	    
+        
+        // run dompdf
+        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+		redirect(site_url('ADMIN/USER'));
+	}
+
+	function export($code)
+	{
+		if($code == "true"){
+			$get_user= $this->AkunModel->getAll();
+		} else {
+			$get_user= $this->AkunModel->getBy($code);
+		}
+
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$sheet->setCellValue('A1', 'NO');
+		$sheet->setCellValue('B1', 'USERNAME');
+		$sheet->setCellValue('C1', 'EMAIL');
+		$sheet->setCellValue('D1', 'NAMA');
+		$sheet->setCellValue('E1', 'TANGGAL LAHIR');
+		$sheet->setCellValue('F1', 'ALAMAT');
+		$sheet->setCellValue('G1', 'PROFILE');
+		$sheet->setCellValue('H1', 'AKSES');
+		
+
+		$no = 1;
+		$x = 2;
+		foreach($get_user as $row)
+		{
+			$sheet->setCellValue('A'.$x, $no++);
+			$sheet->setCellValue('B'.$x, $row->username);
+			$sheet->setCellValue('C'.$x, $row->email);
+			$sheet->setCellValue('D'.$x, $row->nama);
+			$sheet->setCellValue('E'.$x, $row->tgl_lahir);
+			$sheet->setCellValue('F'.$x, $row->alamat);
+			$sheet->setCellValue('G'.$x, $row->profile);
+			$sheet->setCellValue('H'.$x, $row->akses);
+			$x++;
+		}
+		$writer = new Xlsx($spreadsheet);
+		$filename = 'DATA USER';
+		
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+		header('Cache-Control: max-age=0');
+
+		$writer->save('php://output');
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	public function add()
 	{
 		$config['upload_path']		= './assets/image/profile/';
@@ -127,7 +227,7 @@ class 	User extends CI_Controller {
 	{
 		$this->db->where('akses','kasir');
 		$this->db->delete('user');
-		$this->db->where('akses','manager');
+		$this->db->where('akses','ADMIN');
 		$this->db->delete('user');
 		redirect(site_url('admin/user'));
 	}

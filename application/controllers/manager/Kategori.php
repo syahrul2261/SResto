@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require('./vendor/autoload.php');
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Kategori extends CI_Controller {
 
 	public function __construct()
@@ -28,6 +33,65 @@ class Kategori extends CI_Controller {
 			$data['title'] = 'LOGIN!!!';
 			$this->load->view('c_error/login', $data);  
 		}
+	}
+    
+		public function print($code)
+	{
+        $this->data['get_kategori'] = $this->KategoriModel->getAll();
+		
+		$this->load->view('cetak/kategori',$this->data);
+	}
+	
+	public function cetak($code)
+	{
+		$this->load->library('pdfgenerator');
+    
+        // title dari pdf
+        $this->data['title_pdf'] = 'DATA KATEGORI';
+	
+        $this->data['get_kategori'] = $this->KategoriModel->getAll();
+        
+        // filename dari pdf ketika didownload
+        $file_pdf = 'DATA KATEGORI';
+        // setting paper
+        $paper = 'A4';
+        //orientasi paper potrait / landscape
+        $orientation = "portrait";
+        
+		$html = $this->load->view('cetak/kategori',$this->data, true);	    
+        
+        // run dompdf
+        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+		redirect(site_url('manager/kategori'));
+	}
+
+	function export($code)
+	{
+		
+        $get_kategori = $this->KategoriModel->getAll();
+
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$sheet->setCellValue('A1', 'NO');
+		$sheet->setCellValue('B1', 'KATEGORI');
+		
+
+		$no = 1;
+		$x = 2;
+		foreach($get_kategori as $row)
+		{
+			$sheet->setCellValue('A'.$x, $no++);
+			$sheet->setCellValue('B'.$x, $row->nama_kategori);
+			$x++;
+		}
+		$writer = new Xlsx($spreadsheet);
+		$filename = 'DATA KATEGORI';
+		
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+		header('Cache-Control: max-age=0');
+
+		$writer->save('php://output');
 	}
 
     public function add()

@@ -1,50 +1,63 @@
-<div class="card shadow-box bg-primary fw-bold text-light text-center mb-3">
-    PRODUK
-</div>
-<div class="card shadow-box fw-bold">
-    <div class="card-header bg-primary text-light">
-        <div class="float-end">
-            <a href="<?= site_url('manager/produk/cetak') ?>" class="btn btn-sm btn-light">CETAK</a>
-            <div class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#add_produk">ADD</div>
-            <a href="<?= site_url('manager/produk/delete_all') ?>" onclick="return confirm('Apa Anda Yakin Untuk Menghapus Semua Data?')" class="btn btn-sm btn-light">DELETE</a>
+
+    <div class="card shadow-box bg-primary fw-bold text-light text-center mb-3">
+        PRODUK
+    </div>
+    <div class="card shadow-box fw-bold">
+        <div class="card-header bg-primary text-light">
+            <select class="btn btn-sm mt-1 btn-light text-start" onchange="filter()" id="filter">
+                <option value="true" hidden>PILIH</option>
+                <option value="true" >SEMUA</option>
+                <?php foreach($get_kategori as $kt): ?>
+                <option value="<?= $kt->nama_kategori ?>"><?= $kt->nama_kategori ?></option>
+                <?php endforeach; ?>
+            </select>
+            <a href="<?= site_url('manager/produk/cetak/true') ?>" id="pdf" class="btn btn-sm mt-1 btn-light"  target="_blank">CETAK PDF</a>
+            <a href="<?= site_url('manager/produk/export/true') ?>" id="excel" class="btn btn-sm mt-1 btn-light">CETAK XLSX</a>
+            <a class="btn btn-sm mt-1 btn-light" href="<?= site_url('manager/produk/print/true') ?>" id="print" target="_blank">PRINT</a>
+            <div class="float-end">
+                <div class="btn btn-sm mt-1 btn-light" data-bs-toggle="modal" data-bs-target="#add_produk">ADD</div>
+                <a href="<?= site_url('manager/produk/delete_all') ?>" onclick="return confirm('Apa Anda Yakin Untuk Menghapus Semua Data?')" class="btn btn-sm mt-1 btn-light">DELETE</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="card overflow-auto">
+                <table id="" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">NAMA</th>
+                            <th scope="col">FOTO</th>
+                            <th scope="col">KATEGORI</th>                                            
+                            <th scope="col">HARGA</th>
+                            <th scope="col">STOCK</th>
+                            <th scope="col">AKSI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $i = 0;
+                        foreach($get_produk as $p) :
+                            $i++;
+                            ?>
+                        <tr id="tbody">
+                            <td><?= $i ?></td>
+                            <td><?= $p->nama_produk ?></td>
+                            <td><img src="<?= base_url('assets/image/produk/'.$p->foto_produk) ?>" width="50px" alt=""></td>
+                            <td id="kategori"><?= $p->nama_kategori ?></td>
+                            <td><?= $p->harga_produk ?></td>
+                            <td><?= $p->stock ?></td>
+                            <td class="text-center" style="width: 150px">
+                                <div class="btn btn-sm btn-warning mb-1" data-bs-toggle="modal" data-bs-target="#edit_produk<?= $p->id_produk ?>">EDIT</div>
+                                <a href="<?= site_url('manager/produk/delete/'.$p->id_produk) ?>" onclick="return confirm('Apa Anda Yakin Untuk Menghapus Data Ini?')" class="btn btn-sm btn-danger mb-1">HAPUS</a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+
+            </div>
         </div>
     </div>
-    <div class="card-body">
-        <table id="example" class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">NAMA</th>
-                    <th scope="col">FOTO</th>
-                    <th scope="col">KATEGORI</th>                                            
-                    <th scope="col">HARGA</th>
-                    <th scope="col">STOCK</th>
-                    <th scope="col">AKSI</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $i = 0;
-                foreach($get_produk as $p) :
-                    $i++;
-                    ?>
-                <tr>
-                    <td><?= $i ?></td>
-                    <td><?= $p->nama_produk ?></td>
-                    <td><img src="<?= base_url('assets/image/produk/'.$p->foto_produk) ?>" width="50px" alt=""></td>
-                    <td><?= $p->nama_kategori ?></td>
-                    <td><?= $p->harga_produk ?></td>
-                    <td><?= $p->stock ?></td>
-                    <td class="text-center" style="width: 150px">
-                        <div class="btn btn-sm btn-warning mb-1" data-bs-toggle="modal" data-bs-target="#edit_produk<?= $p->id_produk ?>">EDIT</div>
-                        <a href="<?= site_url('manager/produk/delete/'.$p->id_produk) ?>" onclick="return confirm('Apa Anda Yakin Untuk Menghapus Data Ini?')" class="btn btn-sm btn-danger mb-1">HAPUS</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
 
 <!-- Modal -->
 <div class="modal fade" id="add_produk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -136,3 +149,53 @@
 <!-- adasdadsa -->
 <!-- asdasasasd -->
     <!-- asdsadsad -->
+
+<script>
+      function filter(){
+        a();
+        b();
+    }
+    
+    function a(){        
+        const filter = document.getElementById('filter').value;
+        const kategori = document.querySelectorAll('#kategori');
+        const tbody = document.querySelectorAll('#tbody');
+        const excel = document.getElementById('excel');
+        const pdf = document.getElementById('pdf');
+        const print = document.getElementById('print');
+        for(i=0; i<kategori.length; i++){
+          if(filter == "true"){
+            tbody[i].classList.remove('d-none');
+            } else {
+            if(filter == kategori[i].innerText){
+                    tbody[i].classList.remove('d-none');
+                    tbody[i].classList.add('a1');
+                } else {
+                    tbody[i].classList.add('d-none');
+                    tbody[i].classList.remove('a1');
+                }
+            }
+        }
+        pdf.href= "produk/cetak/"+filter;
+        excel.href= "produk/export/"+filter;
+        print.href= "produk/print/"+filter;
+    
+        console.log(filter);
+  }
+
+  function b(){
+    const count = document.querySelectorAll('.a1');
+    const excel = document.getElementById('excel');
+    const pdf = document.getElementById('pdf');
+    const print = document.getElementById('print');
+  if(count.length == 0){
+    pdf.classList.add('disabled');
+    excel.classList.add('disabled');
+    print.classList.add('disabled');
+  } else if(count.length >= 0){
+    pdf.classList.remove('disabled');
+    excel.classList.remove('disabled');
+    print.classList.remove('disabled');
+  }
+}
+</script>
