@@ -5,9 +5,8 @@
     </div>
     <div class="card-body">
         <?php
-        // Cek apakah terdapat session nama message
-        if($this->session->flashdata('message')){ // Jika ada
-            echo '<div class="alert alert-danger my-1 p-0 p-1 text-center">'.$this->session->flashdata('message').'</div>'; // Tampilkan pesannya
+        if($this->session->flashdata('message')){
+            echo '<div class="alert alert-danger my-1 p-0 p-1 text-center">'.$this->session->flashdata('message').'</div>';
         }
         ?>
         <form action="<?= site_url('auth/login'); ?>" method="post">
@@ -17,14 +16,10 @@
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
-                <input type="password" name="password" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="password" name="password" class="form-control" placeholder="password" aria-label="password" aria-describedby="basic-addon1">
             </div>
             <button type="submit" class="btn btn-sm btn-primary float-end">LOGIN</button>
         </form>
     </div>
 </div>
 <?php include('_partials/footer.php'); ?>
-
-
-<!-- adsadasdsadsada -->
-<!-- sajasjdhakjda -->

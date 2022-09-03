@@ -14,7 +14,7 @@ class Akun extends CI_Controller {
 		if($this->session->userdata('authenticated')){
 			if($this->session->userdata('akses') == 'admin'){
                 $data = array(
-                    'title' => 'admin - Akun',
+                    'title' => 'ADMIN - AKUN',
                     'content' => 'admin/Akun',
 					'get_akun' => $this->AkunModel->getById($this->session->userdata('id'))
                 );
@@ -28,7 +28,6 @@ class Akun extends CI_Controller {
 			$this->load->view('c_error/login', $data);  
 		}
 	}
-
 
 	public function update(){
 		$config['upload_path']	= './assets/image/profile/';
@@ -81,6 +80,17 @@ class Akun extends CI_Controller {
 			
 			$this->db->where('id_user', $post['id_user']);
 			$this->db->update('user', $data);
+			
+			$this->session->set_flashdata('massage', 'Akun berhasil di update');
+			$kode_log = 'MA'.date('Ymd').date('His').rand(10, 100);
+			$log = array(
+				'id_user'   => $this->session->userdata('id'),
+				'kode_log'	=> $kode_log,
+				'kegiatan'  => 'Memperbarui Akun',
+				'tanggal'   => date('Y-m-d'),
+				'waktu'     => date('H:i:s')
+			);
+			$this->db->insert('log', $log);
 			redirect(site_url('admin/akun'));
 		}
 	}

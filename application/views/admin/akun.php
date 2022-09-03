@@ -1,20 +1,24 @@
+<div class="card shadow-box bg-primary fw-bold text-light text-center mb-3">
+    AKUN
+</div>
 <div class="card shadow-box">
     <div class="card-body">
-    
-    <div class="card shadow-box rounded-2 mb-1" style="width:250px">
-        <div class="card-body">
-            <div class="card shadow-box rounded-2">
-                <img class="rounded-2" src="<?= base_url('assets/image/profile/'.$get_akun->profile) ?>" style="width:100%" alt="">
-            </div>
-            <form action="<?= site_url('admin/akun/update') ?>" method="post" enctype="multipart/form-data">
-                
-                <div class="card shadow-box rounded-2 mt-2 p-1">
-                    <input type="file" name="profile" id="">
-                    <input type="hidden" name="old_profile" value="<?= $get_akun->profile ?>">
+        <div class="card shadow-box rounded-2 mb-1" style="width:250px">
+            <div class="card-body">
+                <?php if($this->session->flashdata('massage')){ ?>
+                    <div class="alert alert-success" role="alert"><?= $this->session->flashdata('massage') ?></div>
+                    <?php } ?>
+                <div class="card shadow-box rounded-2">
+                    <img class="rounded-2" src="<?= base_url('assets/image/profile/'.$get_akun->profile) ?>" style="width:100%" alt="">
+                </div>
+                <form action="<?= site_url('admin/akun/update') ?>" method="post" enctype="multipart/form-data">
+                    <div class="card shadow-box rounded-2 mt-2 p-1">
+                        <input type="file" name="profile" id="">
+                        <input type="hidden" name="old_profile" value="<?= $get_akun->profile ?>">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
+            <div class="row">
                 <div class="col-12">
                     <div class="card shadow-box">
                         <div class="card-body font-monospace">

@@ -1,13 +1,5 @@
 </body>
-
 <script src="<?= base_url('assets/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-<!-- <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://kit.fontawesome.com/9d0ac98408.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
-
 <script src="<?= base_url('assets/flickity.pkgd.min.js') ?>"></script>
 <script src="<?= base_url('assets/jquery-3.6.0.min.js') ?>"></script>
 <script src="<?= base_url('assets/jquery.dataTables.min.js') ?>"></script>
@@ -15,16 +7,16 @@
 <script src="<?= base_url('assets/chart.js') ?>"></script>
 <script src="<?= base_url('assets/multiselect-20/js/chosen.jquery.min.js') ?>"></script>
 <script src="<?= base_url('assets/multiselect-20/js/main.js') ?>"></script>
-
-
 <script src="<?= base_url('assets/chosen.jquery.min.js') ?>"></script>
 <script src="<?= base_url('assets/script.js') ?>"></script>
-
 <script>
-
-
-
-
+  console.log=function(){};
+  console.error=function(){};
+  window.onerror=function(){
+    console=null;
+    return true;
+  }
+  
   function sidebar (){
     const sidebar = document.getElementById('sidebar');
     sidebar.classList.toggle('sidebar2');
@@ -32,12 +24,12 @@
   
   $(document).ready(function () {
     $("#example").DataTable({
-          "bPaginate": false,
-    "bLengthChange": true,
-    "bFilter": true,
-    "bInfo": false,
-    "bAutoWidth": true,
-    "fixedHeader": true,
+      "bPaginate": false,
+      "bLengthChange": true,
+      "bFilter": true,
+      "bInfo": false,
+      "bAutoWidth": true,
+      "fixedHeader": true,
     });
   });
   
@@ -53,6 +45,13 @@
     side_caret.classList.toggle('side_caret1');
     const caret_laporan = document.getElementById('caret_laporan');
     caret_laporan.classList.toggle('caret_laporan1');
+  }
+  
+  function side_caret_s (){
+    const side_caret_s = document.getElementById('side_caret_s');
+    side_caret_s.classList.toggle('side_caret_s1');
+    const caret_laporan_s = document.getElementById('caret_laporan_s');
+    caret_laporan_s.classList.toggle('caret_laporan_s1');
   }
   
   const cari = document.getElementById('cari');
@@ -75,7 +74,7 @@
   
   $(document).ready(function(){
     $('#modal-finish').modal('show');
-
+    
     $('.add_cart').click(function(){
       var id_produk    = $(this).data("produkid");
 			var nama_produk  = $(this).data("produknama");
@@ -112,11 +111,18 @@
             c = b - a;
             kembalian.setAttribute("value", c); 
             input_bayar.addEventListener('keyup', () =>{
+              
               console.log(input_bayar.value);
               a = total.value;
               b = input_bayar.value;
               c = b - a;
+              btn_submit = document.getElementById('btn-submit');
               kembalian.setAttribute("value", c); 
+              if(c <= -1){
+                btn_submit.classList.add('disabled');
+              } else {
+                btn_submit.classList.remove('disabled');
+              }
             });
           });
           $('#btn-bayar').removeClass('disabled');
@@ -133,7 +139,6 @@
             if(parseInt(cart_table[num].children[2].innerText) >= parseInt(content_card[yum].children[1].children[0].children[0].children[0].innerText)){
               content_card[yum].children[2].children[2].children[0].classList.add('disabled', 'bg-danger');
             } else {
-              
               console.log('yes');
             }
           } else {
@@ -141,15 +146,13 @@
           }
         }
       }
-
-      
       if(cart_table[0] !== undefined){
-          $('#btn-bayar').removeClass('disabled');
-    } else {
-      console.log('asd')
-    }
+        $('#btn-bayar').removeClass('disabled');
+      } else {
+        console.log('asd')
+      }
     });
-
+    
     $('#modal').load("<?= site_url('kasir/pesanan/load_modal') ?>", () => {
       input_bayar = document.getElementById('input_bayar');
       total = document.getElementById('total');
@@ -164,12 +167,15 @@
         b = input_bayar.value;
         c = b - a;
         kembalian.setAttribute("value", c); 
+        btn_submit = document.getElementById('btn-submit');
+        kembalian.setAttribute("value", c); 
+        if(c <= -1){
+          btn_submit.classList.add('disabled');
+        } else {
+          btn_submit.classList.remove('disabled');
+        }
       });
-
-
     });
-
-
     
     $(document).on('click','.delete_cart',function(){
       var row_id=$(this).attr("id"); //mengambil row_id dari artibut id
@@ -182,7 +188,7 @@
           gett[j].classList.remove('disabled', 'bg-danger');
         }
       }
-
+      
 			$.ajax({
         url : "<?php echo site_url();?>kasir/pesanan/hapus_cart",
 				method : "POST",
@@ -216,52 +222,32 @@
         }
 			});
 		});
-
-
-
+    
     $('.tab-class').click(function(){
-      
-              const button_add = document.querySelectorAll('.add_cart');
-              const cart_table = document.querySelectorAll('#cart_table');
-              const content_card = document.querySelectorAll('#content');
-              for (let num = 0; num < cart_table.length; num++) {
-                for (let yum = 0; yum < content_card.length; yum++) {
-                  if(cart_table[num].children[0].innerText.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim() == content_card[yum].children[0].innerText.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()){
-                    if(cart_table[num].children[2].innerText >= content_card[yum].children[1].children[0].children[0].children[0].innerText){
-                      content_card[yum].children[2].children[2].children[0].classList.add('disabled', 'bg-danger');
-                      console.log('1');
-                    } else {
-                      console.log('2');
-                    }
-                  } else {
-                    console.log('3');
-                    console.log(cart_table[num].children[0].innerText);
-                    console.log(content_card[yum].children[0].innerText.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim());
-                  }
-                  
-                }
-              }
+      const button_add = document.querySelectorAll('.add_cart');
+      const cart_table = document.querySelectorAll('#cart_table');
+      const content_card = document.querySelectorAll('#content');
+      for (let num = 0; num < cart_table.length; num++) {
+        for (let yum = 0; yum < content_card.length; yum++) {
+          if(cart_table[num].children[0].innerText.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim() == content_card[yum].children[0].innerText.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim()){
+            if(cart_table[num].children[2].innerText >= content_card[yum].children[1].children[0].children[0].children[0].innerText){
+              content_card[yum].children[2].children[2].children[0].classList.add('disabled', 'bg-danger');
+              console.log('1');
+            } else {
+              console.log('2');
+            }
+          } else {
+            console.log('3');
+            console.log(cart_table[num].children[0].innerText);
+            console.log(content_card[yum].children[0].innerText.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim());
+          }
+        }
+      }
     });
-
-
-
   });
-
-  // $('.add_cart').click(() => {
-  //   $('#modal-after').modal('show');
-  // });
   
-  $('.modal-after').click(() => {
+  $('.modal-dialog-after').click(() => {
     location.href = "<?= site_url("kasir/pesanan") ?>";
   });
-
-
-  
-
-
-
-
-
-
   </script>
 </html>

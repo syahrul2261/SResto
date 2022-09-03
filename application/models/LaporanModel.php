@@ -4,10 +4,6 @@ class LaporanModel extends CI_Model
 {
     private $_table = "detail_pesanan";
 
-    public function rules()
-    {
-    }
-
     public function getAll()
     {
                 $query = $this->db->query('SELECT * FROM `detail_pesanan` JOIN user ON user.id_user = detail_pesanan.operator');
@@ -202,5 +198,4 @@ class LaporanModel extends CI_Model
         $query = $this->db->query('SELECT * FROM `detail_pesanan` JOIN user ON user.id_user = detail_pesanan.operator WHERE user.nama = "'.$code.'"'.' AND tgl_transaksi >= "'.$code1.'"'.' AND tgl_transaksi <= "'.$code2.'"');
         return $query->result();
     }
-
 }

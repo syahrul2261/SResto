@@ -6,9 +6,6 @@ class KategoriModel extends CI_Model
 
     public $id_kategori;
     public $nama_kategori;
-    public function rules()
-    {
-    }
 
     public function getAll()
     {

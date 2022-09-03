@@ -9,8 +9,6 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Produk extends CI_Controller {
 	
-	
-	
 	public function __construct()
 	{
 		parent::__construct();
@@ -23,7 +21,7 @@ class Produk extends CI_Controller {
 		if($this->session->userdata('authenticated')){
 			if($this->session->userdata('akses') == 'manager'){
 				$data = array(
-					'title' => 'manager - Produk',
+					'title' => 'MANAGER - PRODUK',
                     'content' => 'manager/Produk'
                 );
 				$data['get_produk'] = $this->ProdukModel->getALL();
@@ -46,6 +44,15 @@ class Produk extends CI_Controller {
 		} else {
 			$this->data['get_produk'] = $this->ProdukModel->getBy($code);
 		}
+		$kode_log = 'PR'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PRINT',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
 		$this->load->view('cetak/produk',$this->data);
 	}
 	
@@ -72,11 +79,29 @@ class Produk extends CI_Controller {
         
         // run dompdf
         $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+		$kode_log = 'PR'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PDF',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
 		redirect(site_url('manager/produk'));
 	}
 
 	function export($code)
 	{
+		$kode_log = 'PR'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak EXCEL',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
 		if($code == "true"){
 			$get_produk= $this->ProdukModel->getAll();
 		} else {
@@ -113,98 +138,6 @@ class Produk extends CI_Controller {
 		$writer->save('php://output');
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-// 	public function export()
-// 	{
-// 		$get_produk= $this->ProdukModel->getAll();
-// 		$output ='';
-// 		$output .='
-// 		<table>
-// 			<thead>
-// 				<tr>
-// 					<th style="width:150px">
-// 						NAMA
-// 					</th>
-// 					<th style="width:200px">
-// 						FOTO
-// 					</th>
-// 					<th style="width:100px">
-// 						KATEGORI
-// 					</th>
-// 					<th style="width:100px">
-// 						HARGA
-// 					</th>
-// 					<th style="width:50px">
-// 						STOCK
-// 					</th>
-// 				</tr>
-// 			</thead>
-// 			<tbody>';
-// 			foreach ($get_produk as $p ) {
-// $output .='
-// 				<tr style="height:200px">
-// 					<td>
-// 						'.$p->nama_produk.'
-// 					</td>
-// 					<td>
-// 						<img src="'.site_url('assets/image/produk/'.$p->foto_produk).'" width="50%" alt="">
-// 					</td>
-// 					<td>
-// 						'.$p->nama_kategori.'
-// 					</td>
-// 					<td>
-// 						'.$p->harga_produk.'
-// 					</td>
-// 					<td>
-// 						'.$p->stock.'
-// 					</td>
-// 				</tr>
-// 				';
-// 			}
-// $output .='
-// 			</tbody>
-// 		</table>
-// 		';
-
-		// // header('Content-Type: application/vnd.ms-excel');
-		// header('Content-Type: application/force-download');
-		// header('Content-Disposition: attachment;filename="Latihan.xlsx"');
-		// // header('Cache-Control: max-age=0');
-		// header('Content-Transfer-Encoding: BINARY');
-		// echo $output;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// }
-		
-		
-	
-	
 	public function add()
 	{
 		$config['upload_path']	= './assets/image/produk/';
@@ -226,9 +159,21 @@ class Produk extends CI_Controller {
 			$this->id_kategori = $post['id_kategori'];
 			$this->foto_produk = $foto_produk;
 			$this->db->insert('produk', $this);
-			redirect(site_url('manager/produk'));
 			
+			$this->session->set_flashdata('massage', 'Berhasil Menambah Data');
+			$kode_log = 'PR'.date('Ymd').date('His').rand(10, 99);
+			$log = array(
+				'id_user'   => $this->session->userdata('id'),
+				'kode_log'	=> $kode_log,
+				'kegiatan'  => 'Menambah Data',
+				'tanggal'   => date('Y-m-d'),
+				'waktu'     => date('H:i:s')
+			);
+			$this->db->insert('log', $log);
+
+			redirect(site_url('manager/produk'));
 		} 
+		redirect(site_url('manager/produk'));
 	}
 	
 	public function update()
@@ -237,7 +182,6 @@ class Produk extends CI_Controller {
         $config['allowed_types'] = 'jpg|jpeg|png|gif|webp'; 
         $config['max_size'] = '10000'; // max_size in kb
         $config['file_name'] = 'imageProduk-'.date('ymd').'-'.substr(rand(),0, 10);
-		
 		
 		$this->load->library('upload', $config);
 		
@@ -258,6 +202,18 @@ class Produk extends CI_Controller {
 			
 			$this->db->where('id_produk', $post['id_produk']);
 			$this->db->update('produk', $data);
+			
+			$this->session->set_flashdata('massage', 'Berhasil Memperbarui Data');
+			$kode_log = 'PR'.date('Ymd').date('His').rand(10, 99);
+			$log = array(
+				'id_user'   => $this->session->userdata('id'),
+				'kode_log'	=> $kode_log,
+				'kegiatan'  => 'Memperbarui Data',
+				'tanggal'   => date('Y-m-d'),
+				'waktu'     => date('H:i:s')
+			);
+			$this->db->insert('log', $log);
+			
 			redirect(site_url('manager/produk'));
 		} else {
 			$uploadData = $this->upload->data();
@@ -275,25 +231,20 @@ class Produk extends CI_Controller {
 			
 			$this->db->where('id_produk', $post['id_produk']);
 			$this->db->update('produk', $data);
+			
+			$this->session->set_flashdata('massage', 'Berhasil Memperbarui Data');
+			$kode_log = 'PR'.date('Ymd').date('His').rand(10, 99);
+			$log = array(
+				'id_user'   => $this->session->userdata('id'),
+				'kode_log'	=> $kode_log,
+				'kegiatan'  => 'Memperbarui Data',
+				'tanggal'   => date('Y-m-d'),
+				'waktu'     => date('H:i:s')
+			);
+			$this->db->insert('log', $log);
+
 			redirect(site_url('manager/produk'));
 		}
-		// $post = $this->input->post();
-		
-		// $data = array(
-			// 'id_kategori' => $post["id_kategori"],
-			// 'nama_kategori' => $post["nama_kategori"]
-			// );
-			
-			// $this->db->where('id_kategori', $post["id_kategori"]);
-			// $this->db->update('produk', $data);
-			// redirect(site_url('manager/produk'));
-			
-			//////////////////////////////////////////////////////////
-			// $post = $this->input->post();
-			// $this->id_kategori = $post["id_kategori"];
-			// $this->nama_kategori = $post["nama_kategori"];
-			// $this->db->update('produk', $this, array('id_kategori' => $post['id_kategori']));
-			// redirect(site_url('manager/produk'));
 	}
 	
 	public function delete($id=null)
@@ -301,6 +252,17 @@ class Produk extends CI_Controller {
 		if (!isset($id)) show_404();
 		
 		if ($this->ProdukModel->delete($id)) {
+			$this->session->set_flashdata('massage', 'Berhasil Menghapus Data');
+			$kode_log = 'PR'.date('Ymd').date('His').rand(10, 99);
+			$log = array(
+				'id_user'   => $this->session->userdata('id'),
+				'kode_log'	=> $kode_log,
+				'kegiatan'  => 'Menghapus Data',
+				'tanggal'   => date('Y-m-d'),
+				'waktu'     => date('H:i:s')
+			);
+			$this->db->insert('log', $log);
+
 			redirect(site_url('manager/produk'));
 		}
 	}
@@ -308,7 +270,18 @@ class Produk extends CI_Controller {
 	public function delete_all()
 	{
 		$this->db->empty_table('produk');
+	
+		$this->session->set_flashdata('massage', 'Berhasil Menghapus Semua Data');
+		$kode_log = 'PR'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Menghapus Semua Data',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		redirect(site_url('manager/produk'));
-		
 	}
 }

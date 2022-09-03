@@ -10,22 +10,6 @@ class ProdukModel extends CI_Model
     public $id_kategori;
     public $foto_produk;
     public $stock;
-    // public function rules()
-    // {
-    //     return [
-    //         ['field' => 'name',
-    //         'label' => 'Name',
-    //         'rules' => 'required'],
-
-    //         ['field' => 'price',
-    //         'label' => 'Price',
-    //         'rules' => 'numeric'],
-            
-    //         ['field' => 'description',
-    //         'label' => 'Description',
-    //         'rules' => 'required']
-    //     ];
-    // }
 
     public function getAll()
     {

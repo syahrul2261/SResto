@@ -16,6 +16,16 @@ class RiwayatModel extends CI_Model
     
     public function getById($id)
     {
+        $this->db->select(['a.id_detail_pesanan', 'a.kode_transaksi', 'a.nama_pelanggan', 'a.total_harga', 'a.bayar', 'a.kembalian', 'a.catatan', 'a.tgl_transaksi', 'a.jam_transaksi', 'a.operator', 'b.id_user', 'b.nama']);
+        $this->db->from('user b');
+        $this->db->join('detail_pesanan a', 'a.operator = b.id_user'); 
+        $this->db->where('id_detail_pesanan', $id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function getByIda($id)
+    {
         return $this->db->get_where($this->_table, ["id_detail_pesanan" => $id])->row();
     }
 

@@ -1,7 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class 	User extends CI_Controller {
+require('./vendor/autoload.php');
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+class User extends CI_Controller {
 
 	function __Construct()
 	{
@@ -14,7 +19,7 @@ class 	User extends CI_Controller {
 		if($this->session->userdata('authenticated')){
 			if($this->session->userdata('akses') == 'admin'){
                 $data = array(
-                    'title' => 'Admin - user',
+                    'title' => 'ADMIN - USER',
                     'content' => 'admin/user',
 					'get_user' => $this->AkunModel->getAll()
                 );
@@ -29,10 +34,18 @@ class 	User extends CI_Controller {
 		}
 	}
 
-
-
-		public function print($code)
+	public function print($code)
 	{
+		$kode_log = 'US'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PRINT',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+		
 		if($code == "true"){
 			$this->data['get_user'] = $this->AkunModel->getALL();
 		} else {
@@ -43,6 +56,16 @@ class 	User extends CI_Controller {
 	
 	public function cetak($code)
 	{
+		$kode_log = 'US'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PDF',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		$this->load->library('pdfgenerator');
     
         // title dari pdf
@@ -69,6 +92,16 @@ class 	User extends CI_Controller {
 
 	function export($code)
 	{
+		$kode_log = 'US'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak EXCEL',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		if($code == "true"){
 			$get_user= $this->AkunModel->getAll();
 		} else {
@@ -111,24 +144,6 @@ class 	User extends CI_Controller {
 		$writer->save('php://output');
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public function add()
 	{
 		$config['upload_path']		= './assets/image/profile/';
@@ -157,8 +172,20 @@ class 	User extends CI_Controller {
 			);
 			$this->db->insert('user', $user);
 
+			$this->session->set_flashdata('massage', 'Berhasil Menambah Data');
+			$kode_log = 'US'.date('Ymd').date('His').rand(10, 100);
+			$log = array(
+				'id_user'   => $this->session->userdata('id'),
+				'kode_log'	=> $kode_log,
+				'kegiatan'  => 'Menambah Data',
+				'tanggal'   => date('Y-m-d'),
+				'waktu'     => date('H:i:s')
+			);
+			$this->db->insert('log', $log);
+
 			redirect(site_url('admin/user'));
 		}
+		redirect(site_url('admin/user'));
 	}
 
 	public function update(){
@@ -166,7 +193,6 @@ class 	User extends CI_Controller {
         $config['allowed_types'] = 'jpg|jpeg|png|gif|webp'; 
         $config['max_size'] = '10000'; // max_size in kb 
         $config['file_name'] = 'Profile-'.date('ymd').'-'.substr(rand(),0, 10);
-
 
 		$this->load->library('upload', $config);
 
@@ -193,6 +219,17 @@ class 	User extends CI_Controller {
 
 		$this->db->where('id_user', $post["id_user"]);
 		$this->db->update('user', $data);
+
+		$this->session->set_flashdata('massage', 'Berhasil Melakukan Cetak EXCEL');
+		$kode_log = 'US'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Memperbarui Data',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
 		redirect(site_url('admin/user'));
 	} else {
 		$post = $this->input->post();
@@ -210,9 +247,19 @@ class 	User extends CI_Controller {
 		} else {
 			$data['password'] = $post['old_password'];
 		}
-			
 			$this->db->where('id_user', $post['id_user']);
 			$this->db->update('user', $data);
+			
+			$this->session->set_flashdata('massage', 'Berhasil Memperbarui Data');
+			$kode_log = 'US'.date('Ymd').date('His').rand(10, 99);
+			$log = array(
+				'id_user'   => $this->session->userdata('id'),
+				'kode_log'	=> $kode_log,
+				'kegiatan'  => 'Memperbarui Data',
+				'tanggal'   => date('Y-m-d'),
+				'waktu'     => date('H:i:s')
+			);
+			$this->db->insert('log', $log);
 			redirect(site_url('admin/user'));
 		}
 	}
@@ -220,6 +267,16 @@ class 	User extends CI_Controller {
 	public function delete($id){
 		$this->db->where('id_user', $id);
 		$this->db->delete('user');
+		$this->session->set_flashdata('massage', 'Berhasil menghapus Data');
+		$kode_log = 'US'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'menghapus Data',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
 		redirect(site_url('admin/user'));
 	}
 	
@@ -229,6 +286,17 @@ class 	User extends CI_Controller {
 		$this->db->delete('user');
 		$this->db->where('akses','ADMIN');
 		$this->db->delete('user');
+		
+		$this->session->set_flashdata('massage', 'Berhasil Memperbarui Data');
+		$kode_log = 'US'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Memperbarui Data',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
 		redirect(site_url('admin/user'));
 	}
 }

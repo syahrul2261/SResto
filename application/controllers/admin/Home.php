@@ -14,7 +14,7 @@ class Home extends CI_Controller {
 		if($this->session->userdata('authenticated')){
 			if($this->session->userdata('akses') == 'admin'){
                 $data = array(
-                    'title' => 'Admin - HOME',
+                    'title' => 'ADMIN - HOME',
                     'content' => 'home',
 					'laporan_tahunan' => $this->DashboardModel->laporan_tahunan(),
 					'laporan_tahunan_lalu' => $this->DashboardModel->laporan_tahunan_lalu(),

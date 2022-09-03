@@ -3,66 +3,69 @@
 </div>
 
 
-        <div class="card shadow-box">
-            <div class="card-header bg-primary text-light fw-bold">
-                FILTER :
-                        <select class="btn btn-sm btn-light mt-1 text-start asd" onchange="filter()" id="filter">
+<div class="card shadow-box">
+    <div class="card-header bg-primary text-light fw-bold">
+        FILTER :
+        <select class="btn btn-sm btn-light mt-1 text-start asd" onchange="filter()" id="filter">
             <option value="true" hidden>PILIH</option>
             <option value="true" >SEMUA</option>
             <option value="admin" >ADMIN</option>
             <option value="manager" >MANAGER</option>
             <option value="kasir" >KASIR</option>
         </select>
-                <a href="<?= site_url('admin/user/cetak/true') ?>" id="pdf" class="btn btn-sm btn-light mt-1"  target="_blank">CETAK PDF</a>
+        <a href="<?= site_url('admin/user/cetak/true') ?>" id="pdf" class="btn btn-sm btn-light mt-1"  target="_blank">CETAK PDF</a>
         <a href="<?= site_url('admin/user/export/true') ?>" id="excel" class="btn btn-sm btn-light mt-1">CETAK XLSX</a>
         <a class="btn btn-sm btn-light mt-1" href="<?= site_url('admin/user/print/true') ?>" id="print" target="_blank">PRINT</a>
-                <div class="float-end">
-                    <div class="btn btn-sm btn-light mt-1 mx-1" data-bs-toggle="modal" data-bs-target="#add_user">TAMBAH</div>
-                    <a href="<?= site_url('admin/user/delete_all') ?>" class="btn btn-sm btn-light mt-1 mx-1">HAPUS</a>
-
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="card overflow-auto">
-
-                    <table id="example" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>username</th>
-                                <th>email</th>
-                                <th>nama</th>
-                                <th>tgl_lahir</th>
-                                <th>alamat</th>
-                                <th>profile</th>
-                                <th>akses</th>
-                                <th>AKSI</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $i=0; foreach ($get_user as $u): $i++?>
-                            <tr id="tbody">
-                                <td><?= $i ?></td>
-                                <td><?= $u->username ?></td>
-                                <td><?= $u->email ?></td>
-                                <td><?= $u->nama ?></td>
-                                <td><?= $u->tgl_lahir ?></td>
-                                <td><?= $u->alamat ?></td>
-                                <td>
-                        <img class="rounded-2" src="<?= base_url('assets/image/profile/'.$u->profile) ?>" style="width:50PX" alt="">
-                                </td>   
-                                <td id="akses"><?= $u->akses ?></td>
-                                <td>
-                                    <div class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $u->id_user ?>">EDIT</div>
-                                    <a href="<?= site_url('admin/user/delete/'.$u->id_user) ?>" class="btn btn-sm btn-danger">HAPUS</a>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div class="float-end">
+            <div class="btn btn-sm btn-light mt-1 mx-1" data-bs-toggle="modal" data-bs-target="#add_user">TAMBAH</div>
+            <a href="<?= site_url('admin/user/delete_all') ?>" class="btn btn-sm btn-light mt-1 mx-1">HAPUS</a>
+            
         </div>
+    </div>
+    <div class="card-body">
+        <?php if($this->session->flashdata('massage')){ ?>
+            <div class="alert alert-success" role="alert"><?= $this->session->flashdata('massage') ?></div>
+        <?php } ?>
+        <div class="card overflow-auto">
+            
+            <table id="example" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>username</th>
+                        <th>email</th>
+                        <th>nama</th>
+                        <th>TANGGAL LAHIR</th>
+                        <th>alamat</th>
+                        <th>profile</th>
+                        <th>akses</th>
+                        <th>AKSI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i=0; foreach ($get_user as $u): $i++?>
+                    <tr id="tbody">
+                        <td><?= $i ?></td>
+                        <td><?= $u->username ?></td>
+                        <td><?= $u->email ?></td>
+                        <td><?= $u->nama ?></td>
+                        <td><?= $u->tgl_lahir ?></td>
+                        <td><?= $u->alamat ?></td>
+                        <td>
+                            <img class="rounded-2" src="<?= base_url('assets/image/profile/'.$u->profile) ?>" style="width:50PX" alt="">
+                        </td>   
+                        <td id="akses"><?= $u->akses ?></td>
+                        <td>
+                            <div class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $u->id_user ?>">EDIT</div>
+                            <a href="<?= site_url('admin/user/delete/'.$u->id_user) ?>" class="btn btn-sm btn-danger">HAPUS</a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 
 
@@ -71,7 +74,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">TAMBAH DATA USER</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -132,12 +135,12 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title <?= $z->id_user ?></h5>
+                <h5 class="modal-title" id="exampleModalLabel">EDIT DATA USER</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="<?= site_url('admin/user/update') ?>" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="id_user" value="<?= $z->id_user ?>">
+                    <input type="hidden" name="id_user" value="<?= $z->id_user ?>">
                     <div class="input-group mb-3">
                         <span class="col-4 input-group-text bg-primary text-light fw-bold" id="basic-addon3">USERNAME</span>
                         <input value="<?= $z->username ?>" type="text" class="form-control" name='username' id="basic-url" aria-describedby="basic-addon3">
@@ -194,7 +197,7 @@
 
 <script>
     
-      function filter(){
+    function filter(){
         a();
         b();
     }
@@ -207,10 +210,10 @@
         const pdf = document.getElementById('pdf');
         const print = document.getElementById('print');
         for(i=0; i<akses.length; i++){
-          if(filter == "true"){
-            tbody[i].classList.remove('d-none');
+            if(filter == "true"){
+                tbody[i].classList.remove('d-none');
             } else {
-            if(filter == akses[i].innerText){
+                if(filter == akses[i].innerText){
                     tbody[i].classList.remove('d-none');
                     tbody[i].classList.add('a1');
                 } else {
@@ -222,23 +225,23 @@
         pdf.href= "user/cetak/"+filter;
         excel.href= "user/export/"+filter;
         print.href= "user/print/"+filter;
-    
+        
         console.log(filter);
-  }
-
-  function b(){
-    const count = document.querySelectorAll('.a1');
-    const excel = document.getElementById('excel');
-    const pdf = document.getElementById('pdf');
-    const print = document.getElementById('print');
-  if(count.length == 0){
-    pdf.classList.add('disabled');
-    excel.classList.add('disabled');
-    print.classList.add('disabled');
-  } else if(count.length >= 0){
-    pdf.classList.remove('disabled');
-    excel.classList.remove('disabled');
-    print.classList.remove('disabled');
-  }
-}
+    }
+    
+    function b(){
+        const count = document.querySelectorAll('.a1');
+        const excel = document.getElementById('excel');
+        const pdf = document.getElementById('pdf');
+        const print = document.getElementById('print');
+        if(count.length == 0){
+            pdf.classList.add('disabled');
+            excel.classList.add('disabled');
+            print.classList.add('disabled');
+        } else if(count.length >= 0){
+            pdf.classList.remove('disabled');
+            excel.classList.remove('disabled');
+            print.classList.remove('disabled');
+        }
+    }
 </script>

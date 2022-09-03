@@ -8,36 +8,39 @@
         <a class="btn btn-sm btn-light mt-1" href="<?= site_url('manager/kategori/print') ?>" id="print" target="_blank">PRINT</a>
         <div class="float-end">
             <div class="btn btn-sm btn-light mt-1" data-bs-toggle="modal" data-bs-target="#add_kategori">ADD</div>
-            <a href="<?= site_url('manager/kategori/delete_all') ?>" class="btn btn-sm btn-light mt-1">DELETE</a>
+            <a href="<?= site_url('manager/kategori/delete_all') ?>" onclick="return confirm('Apa Anda Yakin Untuk Menghapus Semua Data?')" class="btn btn-sm btn-light mt-1">DELETE</a>
         </div>
     </div>
     <div class="card-body">
-                    <div class="card overflow-auto">
-                        <table id="example" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">KATEGORI</th>
-                                    <th scope="col">AKSI</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $i = 0; 
-                                foreach ($get_kategori as $k): 
-                                    $i++;
-                                    ?>
-                                <tr>
-                                    <td><?= $i ?></td>
-                                    <td><?= $k->nama_kategori ?></td>
-                                    <td class="text-center" style="width: 150px">
-                                        <div class="btn btn-sm btn-warning mb-1" data-bs-toggle="modal" data-bs-target="#update_kategori<?= $k->id_kategori ?>">EDIT</div>
-                                        <a onclick="return confirm('Apa Anda Yakin Untuk Menghapus Data Ini?')" href="<?= site_url('manager/kategori/delete/'.$k->id_kategori) ?>" class="btn btn-sm btn-danger mb-1">HAPUS</a>
-                                    </td>
-                                </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-</div>
+        <?php if($this->session->flashdata('massage')){ ?>
+            <div class="alert alert-success" role="alert"><?= $this->session->flashdata('massage') ?></div>
+            <?php } ?>
+        <div class="card overflow-auto">
+            <table id="example" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">KATEGORI</th>
+                        <th scope="col">AKSI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i = 0; 
+                        foreach ($get_kategori as $k): 
+                        $i++;
+                        ?>
+                    <tr>
+                        <td><?= $i ?></td>
+                        <td><?= $k->nama_kategori ?></td>
+                        <td class="text-center" style="width: 180px">
+                            <div class="btn btn-sm btn-warning mb-1" data-bs-toggle="modal" data-bs-target="#update_kategori<?= $k->id_kategori ?>">EDIT</div>
+                            <a onclick="return confirm('Apa Anda Yakin Untuk Menghapus Data Ini?')" href="<?= site_url('manager/kategori/delete/'.$k->id_kategori) ?>" class="btn btn-sm btn-danger mb-1">HAPUS</a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <!-- Modal -->
@@ -45,7 +48,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">TAMBAH DATA KATEGORI</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -69,12 +72,12 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">EDIT KATEGORI</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="<?= site_url('manager/kategori/update') ?>" method="post">
-                <input type="hidden" name="id_kategori" value="<?= $k->id_kategori ?>">
+                    <input type="hidden" name="id_kategori" value="<?= $k->id_kategori ?>">
                     <div class="input-group mb-3">
                         <span class="input-group-text bg-primary text-light fw-bold" id="basic-addon3">Nama Kategori</span>
                         <input value="<?= $k->nama_kategori ?>" type="text" class="form-control" name='nama_kategori' id="basic-url" aria-describedby="basic-addon3">
@@ -89,4 +92,3 @@
     </div>
 </div>
 <?php endforeach; ?>
-<!-- adasdadsa -->

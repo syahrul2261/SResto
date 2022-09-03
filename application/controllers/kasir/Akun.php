@@ -14,10 +14,9 @@ class Akun extends CI_Controller {
 		if($this->session->userdata('authenticated')){
 			if($this->session->userdata('akses') == 'kasir'){
                 $data = array(
-                    'title' => 'KASIR - Akun',
+                    'title' => 'KASIR - AKUN',
                     'content' => 'kasir/Akun',
 					'get_akun' => $this->AkunModel->getById($this->session->userdata('id'))
-
                 );
 				$this->load->view('kasir/template', $data);
 			} else{
@@ -36,7 +35,6 @@ class Akun extends CI_Controller {
         $config['allowed_types'] = 'jpg|jpeg|png|gif|webp'; 
         $config['max_size'] = '10000'; // max_size in kb 
         $config['file_name'] = 'Profile-'.date('ymd').'-'.substr(rand(),0, 10);
-
 
 		$this->load->library('upload', $config);
 
@@ -63,6 +61,16 @@ class Akun extends CI_Controller {
 
 		$this->db->where('id_user', $post["id_user"]);
 		$this->db->update('user', $data);
+		$this->session->set_flashdata('massage', 'Akun berhasil di update');
+		$kode_log = 'MA'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Memperbarui Akun',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
 		redirect(site_url('kasir/akun'));
 	} else {
 		$post = $this->input->post();
@@ -80,9 +88,18 @@ class Akun extends CI_Controller {
 		} else {
 			$data['password'] = $post['old_password'];
 		}
-			
 			$this->db->where('id_user', $post['id_user']);
 			$this->db->update('user', $data);
+			$this->session->set_flashdata('massage', 'Akun berhasil di update');
+			$kode_log = 'MA'.date('Ymd').date('His').rand(10, 99);
+			$log = array(
+				'id_user'   => $this->session->userdata('id'),
+				'kode_log'	=> $kode_log,
+				'kegiatan'  => 'Memperbarui Akun',
+				'tanggal'   => date('Y-m-d'),
+				'waktu'     => date('H:i:s')
+			);
+        	$this->db->insert('log', $log);
 			redirect(site_url('kasir/akun'));
 		}
 	}

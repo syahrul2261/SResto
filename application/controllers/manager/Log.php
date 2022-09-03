@@ -19,7 +19,7 @@ class Log extends CI_Controller {
 		if($this->session->userdata('authenticated')){
 			if($this->session->userdata('akses') == 'manager'){
                 $data = array(
-                    'title' => 'manager - Log',
+                    'title' => 'MANAGER - LOG',
                     'content' => 'manager/Log',
 					'get_log' => $this->LogModel->getAll(),
 					'get_akun' => $this->AkunModel->getAll()
@@ -38,6 +38,16 @@ class Log extends CI_Controller {
 	
 	public function print($code, $code1, $code2)
 	{
+		$kode_log = 'LO'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PRINT',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		if ($code == 'true') {
 			if($code1 == 'true' && $code2 == 'true'){
 				$this->data['get_log'] = $this->LogModel->get1();
@@ -64,16 +74,20 @@ class Log extends CI_Controller {
 	
 	public function cetak($code, $code1, $code2)
 	{
+		$kode_log = 'LO'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PDF',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		$this->load->library('pdfgenerator');
     
         // title dari pdf
         $this->data['title_pdf'] = 'DATA LOG';
-
-		// if($code == "true"){
-		// 	$this->data['get_log'] = $this->LogModel->getALL();
-		// } else {
-			// 	$this->data['get_log'] = $this->LogModel->getBy($code);
-			// }
 
 		if ($code == 'true') {
 			if($code1 == 'true' && $code2 == 'true'){
@@ -113,6 +127,16 @@ class Log extends CI_Controller {
 
 	function export($code, $code1, $code2)
 	{
+		$kode_log = 'LO'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak EXCEL',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		if ($code == 'true') {
 			if($code1 == 'true' && $code2 == 'true'){
 				$get_log = $this->LogModel->get1();

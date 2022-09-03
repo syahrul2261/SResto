@@ -11,7 +11,7 @@ class Laporan extends CI_Controller {
 	function __Construct()
 	{
 		parent::__Construct();
-		$this->load->model(array('LaporanModel', 'AkunModel'));
+		$this->load->model(array('LaporanModel', 'AkunModel', 'PesananModel', 'RiwayatModel'));
 	}
 
 	public function index()
@@ -36,14 +36,16 @@ class Laporan extends CI_Controller {
 	public function harian()
 	{
 		$data = array(
-			'title' => 'Manager - laporan harian',
+			'title' => 'MANAGER - LAPORAN HARIAN',
 			'content' => 'manager/laporan/harian',
 			'get_all' => $this->LaporanModel->getAll_harian(),
 			'get_pendapatan_harian' => $this->LaporanModel->pendapatan_harian(),
 			'get_produk_terjual_harian' => $this->LaporanModel->produk_terjual_harian(),
 			'get_total_transaksi_harian' => $this->LaporanModel->total_transaksi_harian(),
 			'get_produk_terlaris_harian' => $this->LaporanModel->produk_terlaris_harian(),
-			'get_akun' => $this->AkunModel->getAll()
+			'get_akun' => $this->AkunModel->getAll(),
+			'get_riwayat' => $this->RiwayatModel->getAll(),
+			'get_pesanan' => $this->PesananModel->getAll()
 		);
 		$this->load->view('manager/template', $data);
 	}
@@ -51,6 +53,16 @@ class Laporan extends CI_Controller {
 	
 	public function harian_print($code, $code1)
 	{
+		$kode_log = 'LH'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PRINT',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		if($code == 'true' && $code1 == 'true'){
 			$this->data['dashboard'] = '';
 			$this->data['get_harian'] =  $this->LaporanModel->getAll_harian();
@@ -75,6 +87,16 @@ class Laporan extends CI_Controller {
 	
 	public function harian_cetak($code, $code1)
 	{
+		$kode_log = 'LH'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PDF',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		if($code == 'true' && $code1 == 'true'){
 			$this->data['dashboard'] = '';
 			$this->data['get_harian'] =  $this->LaporanModel->getAll_harian();
@@ -114,6 +136,16 @@ class Laporan extends CI_Controller {
 
 	function harian_export($code, $code1)
 	{
+		$kode_log = 'LH'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak EXCEL',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		if($code1 == 'true'){
 			$get_harian =  $this->LaporanModel->getAll_harian();
 		} else if($code1 != 'true'){
@@ -168,20 +200,32 @@ class Laporan extends CI_Controller {
 	public function bulanan()
 	{
 		$data = array(
-			'title' => 'Manager - laporan bulanan',
+			'title' => 'MANAGER - LAPORAN BULANAN',
 			'content' => 'manager/laporan/bulanan',
 			'get_all' => $this->LaporanModel->getAll_bulanan(),
 			'get_pendapatan_bulanan' => $this->LaporanModel->pendapatan_bulanan(),
 			'get_produk_terjual_bulanan' => $this->LaporanModel->produk_terjual_bulanan(),
 			'get_total_transaksi_bulanan' => $this->LaporanModel->total_transaksi_bulanan(),
 			'get_produk_terlaris_bulanan' => $this->LaporanModel->produk_terlaris_bulanan(),
-			'get_akun' => $this->AkunModel->getAll()
+			'get_akun' => $this->AkunModel->getAll(),
+			'get_riwayat' => $this->RiwayatModel->getAll(),
+			'get_pesanan' => $this->PesananModel->getAll()
 		);
 		$this->load->view('manager/template', $data);
 	}
 	
 	public function bulanan_print($code, $code1)
 	{
+		$kode_log = 'LB'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PRINT',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		if($code == 'true' && $code1 == 'true'){
 			$this->data['dashboard'] = '';
 			$this->data['get_bulanan'] =  $this->LaporanModel->getAll_bulanan();
@@ -206,6 +250,16 @@ class Laporan extends CI_Controller {
 	
 	public function bulanan_cetak($code, $code1)
 	{
+		$kode_log = 'LB'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PDF',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		if($code == 'true' && $code1 == 'true'){
 			$this->data['dashboard'] = '';
 			$this->data['get_bulanan'] =  $this->LaporanModel->getAll_bulanan();
@@ -245,6 +299,16 @@ class Laporan extends CI_Controller {
 
 	function bulanan_export($code, $code1)
 	{
+		$kode_log = 'LB'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak EXCEL',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		if($code1 == 'true'){
 			$get_bulanan =  $this->LaporanModel->getAll_bulanan();
 		} else if($code1 != 'true'){
@@ -304,14 +368,16 @@ class Laporan extends CI_Controller {
 	public function transaksi()
 	{
 		$data = array(
-			'title' => 'Manager - laporan transaksi',
+			'title' => 'MANAGER - LAPORAN TRANSAKSI',
 			'content' => 'manager/laporan/transaksi',
 			'get_all' => $this->LaporanModel->getAll(),
 			'get_akun' => $this->AkunModel->getAll(),
 			'get_pendapatan_transaksi' => $this->LaporanModel->pendapatan_transaksi(),
 			'get_produk_terjual_transaksi' => $this->LaporanModel->produk_terjual_transaksi(),
 			'get_total_transaksi_transaksi' => $this->LaporanModel->total_transaksi_transaksi(),
-			'get_produk_terlaris_transaksi' => $this->LaporanModel->produk_terlaris_transaksi()
+			'get_produk_terlaris_transaksi' => $this->LaporanModel->produk_terlaris_transaksi(),
+			'get_riwayat' => $this->RiwayatModel->getAll(),
+			'get_pesanan' => $this->PesananModel->getAll()
 			
 		);
 		$this->load->view('manager/template', $data);
@@ -320,6 +386,16 @@ class Laporan extends CI_Controller {
 
 	public function print($code5, $code, $code1, $code2)
 	{
+		$kode_log = 'LT'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PRINT',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		if ($code5 == 'true'){
 			$this->data['dashboard'] = '';
 		} else{
@@ -355,22 +431,26 @@ class Laporan extends CI_Controller {
 	
 	public function cetak($code5, $code, $code1, $code2)
 	{
+		$kode_log = 'LT'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PDF',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		$this->load->library('pdfgenerator');
-    
-        // title dari pdf
 		if ($code5 == 'true'){
 			$this->data['dashboard'] = '';
 		} else{
 			$this->data['dashboard'] = 'none';
 		}
+
+		// title dari pdf
         $this->data['title_pdf'] = 'DATA LAPORAN TRANSAKSI';
-
-		// if($code == "true"){
-		// 	$this->data['get_transaksi'] = $this->LaporanModel->getALL();
-		// } else {
-			// 	$this->data['get_transaksi'] = $this->LaporanModel->getBy($code);
-			// }
-
+		
 		if ($code == 'true') {
 			if($code1 == 'true' && $code2 == 'true'){
 				$this->data['get_transaksi'] = $this->LaporanModel->get1();
@@ -414,6 +494,16 @@ class Laporan extends CI_Controller {
 
 	function export($code5, $code, $code1, $code2)
 	{
+		$kode_log = 'LT'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak EXCEL',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		if ($code == 'true') {
 			if($code1 == 'true' && $code2 == 'true'){
 				$get_transaksi = $this->LaporanModel->get1();

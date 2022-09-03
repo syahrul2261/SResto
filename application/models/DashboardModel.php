@@ -15,238 +15,9 @@ class DashboardModel extends CI_Model
         return $this->db->get_where($this->_table, ["id_log" => $id])->row();
     }
 
-    public function getTahunan_1()
-    {
-        $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 1 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-        if($query == null){
-            return 0;
-        } else {
-            return $query->total;
-        }
-    }
-    
-    public function getTahunan_2()
-    {
-        $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 2 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-        if($query == null){
-            return 0;
-        } else {
-            return $query->total;
-        }
-    }
-    public function getTahunan_3()
-    {
-        $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 3 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-        if($query == null){
-            return 0;
-        } else {
-            return $query->total;
-        }
-    }
-    public function getTahunan_4()
-    {
-        $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 4 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-        if($query == null){
-            return 0;
-        } else {
-            return $query->total;
-        }
-    }
-    public function getTahunan_5()
-    {
-        $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 5 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-        if($query == null){
-            return 0;
-        } else {
-            return $query->total;
-        }
-    }
-    public function getTahunan_6()
-    {
-        $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 6 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-        if($query == null){
-            return 0;
-        } else {
-            return $query->total;
-        }
-    }
-    public function getTahunan_7()
-    {
-        $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 7 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-        if($query == null){
-            return 0;
-        } else {
-            return $query->total;
-        }
-    }
-    public function getTahunan_8()
-    {
-        $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 8 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-        if($query == null){
-            return 0;
-        } else {
-            return $query->total;
-        }
-    }
-    public function getTahunan_9()
-    {
-        $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 9 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-        if($query == null){
-            return 0;
-        } else {
-            return $query->total;
-        }
-    }
-    public function getTahunan_10()
-    {
-        $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 10 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-        if($query == null){
-            return 0;
-        } else {
-            return $query->total;
-        }
-    }
-    public function getTahunan_11()
-    {
-        $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 11 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-        if($query == null){
-            return 0;
-        } else {
-            return $query->total;
-        }
-    }
-    public function getTahunan_12()
-    {
-        $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 12 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-        if($query == null){
-            return 0;
-        } else {
-            return $query->total;
-        }
-    }
-
-
-
-
-
-
-
-
-    // public function getTahunan_1()
-    // {
-    //     $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 1 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-    //     if($query == null){
-    //         return 0;
-    //     } else {
-    //         return $query->total;
-    //     }
-    // }
-    
-    // public function getTahunan_2()
-    // {
-    //     $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 2 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-    //     if($query == null){
-    //         return 0;
-    //     } else {
-    //         return $query->total;
-    //     }
-    // }
-    // public function getTahunan_3()
-    // {
-    //     $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 3 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-    //     if($query == null){
-    //         return 0;
-    //     } else {
-    //         return $query->total;
-    //     }
-    // }
-    // public function getTahunan_4()
-    // {
-    //     $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 4 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-    //     if($query == null){
-    //         return 0;
-    //     } else {
-    //         return $query->total;
-    //     }
-    // }
-    // public function getTahunan_5()
-    // {
-    //     $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 5 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-    //     if($query == null){
-    //         return 0;
-    //     } else {
-    //         return $query->total;
-    //     }
-    // }
-    // public function getTahunan_6()
-    // {
-    //     $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 6 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-    //     if($query == null){
-    //         return 0;
-    //     } else {
-    //         return $query->total;
-    //     }
-    // }
-    // public function getTahunan_7()
-    // {
-    //     $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 7 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-    //     if($query == null){
-    //         return 0;
-    //     } else {
-    //         return $query->total;
-    //     }
-    // }
-    // public function getTahunan_8()
-    // {
-    //     $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 8 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-    //     if($query == null){
-    //         return 0;
-    //     } else {
-    //         return $query->total;
-    //     }
-    // }
-    // public function getTahunan_9()
-    // {
-    //     $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 9 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-    //     if($query == null){
-    //         return 0;
-    //     } else {
-    //         return $query->total;
-    //     }
-    // }
-    // public function getTahunan_10()
-    // {
-    //     $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 10 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-    //     if($query == null){
-    //         return 0;
-    //     } else {
-    //         return $query->total;
-    //     }
-    // }
-    // public function getTahunan_11()
-    // {
-    //     $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 11 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-    //     if($query == null){
-    //         return 0;
-    //     } else {
-    //         return $query->total;
-    //     }
-    // }
-    // public function getTahunan_12()
-    // {
-    //     $query = $this->db->query('SELECT MONTH(tgl_transaksi) as tgl,SUM(total_harga) as total FROM detail_pesanan WHERE YEAR(tgl_transaksi) = YEAR(NOW()) AND MONTH(tgl_transaksi) = 12 GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi);')->row();
-    //     if($query == null){
-    //         return 0;
-    //     } else {
-    //         return $query->total;
-    //     }
-    // }
-
-
     public function laporan_tahunan()
     {
         $query = $this->db->query('SELECT
-        -- ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((YEAR(tgl_transaksi) = (YEAR(NOW)) AND (MONTH(tgl_transaksi) = 1))), 0) as "January"
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((YEAR(tgl_transaksi) = (YEAR(NOW())) AND (MONTH(tgl_transaksi) = 1)))), 0) as "a", 
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((YEAR(tgl_transaksi) = (YEAR(NOW())) AND (MONTH(tgl_transaksi) = 2)))), 0) as "b",
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((YEAR(tgl_transaksi) = (YEAR(NOW())) AND (MONTH(tgl_transaksi) = 3)))), 0) as "c", 
@@ -269,7 +40,6 @@ class DashboardModel extends CI_Model
     public function laporan_tahunan_lalu()
     {
         $query = $this->db->query('SELECT
-        -- ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((YEAR(tgl_transaksi) = (YEAR(NOW)) AND (MONTH(tgl_transaksi) = 1))), 0) as "January"
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((YEAR(tgl_transaksi) = (YEAR(NOW())-1) AND (MONTH(tgl_transaksi) = 1)))), 0) as "a", 
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((YEAR(tgl_transaksi) = (YEAR(NOW())-1) AND (MONTH(tgl_transaksi) = 2)))), 0) as "b",
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((YEAR(tgl_transaksi) = (YEAR(NOW())-1) AND (MONTH(tgl_transaksi) = 3)))), 0) as "c", 
@@ -290,7 +60,6 @@ class DashboardModel extends CI_Model
     public function laporan_bulanan()
     {
         $query = $this->db->query('SELECT
-        -- ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((YEAR(tgl_transaksi) = (YEAR(NOW)) AND (MONTH(tgl_transaksi) = 1))), 0) as "January"
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((MONTH(tgl_transaksi) = (MONTH(NOW())) AND (DAY(tgl_transaksi) = 1)))), 0) as "h1", 
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((MONTH(tgl_transaksi) = (MONTH(NOW())) AND (DAY(tgl_transaksi) = 2)))), 0) as "h2",
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((MONTH(tgl_transaksi) = (MONTH(NOW())) AND (DAY(tgl_transaksi) = 3)))), 0) as "h3", 
@@ -323,8 +92,6 @@ class DashboardModel extends CI_Model
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((MONTH(tgl_transaksi) = (MONTH(NOW())) AND (DAY(tgl_transaksi) = 30)))), 0) as "h30", 
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((MONTH(tgl_transaksi) = (MONTH(NOW())) AND (DAY(tgl_transaksi) = 31)))), 0) as "h31"
         FROM detail_pesanan GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi)
-        
-        
         ');
         return $query->row();
     }
@@ -332,7 +99,6 @@ class DashboardModel extends CI_Model
     public function laporan_bulanan_lalu()
     {
         $query = $this->db->query('SELECT
-        -- ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((YEAR(tgl_transaksi) = (YEAR(NOW)) AND (MONTH(tgl_transaksi) = 1))), 0) as "January"
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((MONTH(tgl_transaksi) = (MONTH(NOW())-1) AND (DAY(tgl_transaksi) = 1)))), 0) as "h1", 
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((MONTH(tgl_transaksi) = (MONTH(NOW())-1) AND (DAY(tgl_transaksi) = 2)))), 0) as "h2",
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((MONTH(tgl_transaksi) = (MONTH(NOW())-1) AND (DAY(tgl_transaksi) = 3)))), 0) as "h3", 
@@ -365,8 +131,6 @@ class DashboardModel extends CI_Model
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((MONTH(tgl_transaksi) = (MONTH(NOW())-1) AND (DAY(tgl_transaksi) = 30)))), 0) as "h30", 
         ifnull((SELECT sum(total_harga) FROM (detail_pesanan) WHERE ((MONTH(tgl_transaksi) = (MONTH(NOW())-1) AND (DAY(tgl_transaksi) = 31)))), 0) as "h31"
         FROM detail_pesanan GROUP BY YEAR(tgl_transaksi),MONTH(tgl_transaksi)
-        
-        
         ');
         return $query->row();
     }
@@ -401,7 +165,7 @@ class DashboardModel extends CI_Model
 
     public function produk_terlaris_bulan()
     {
-        $query = $this->db->query('SELECT nama_produk, sum(qty) as a, kategori.id_kategori,kategori.nama_kategori, tgl_transaksi FROM `pesanan` JOIN `produk` JOIN `kategori`JOIN `detail_pesanan` WHERE pesanan.id_produk = produk.id_produk AND MONTH(tgl_transaksi) = MONTH(NOW()) AND detail_pesanan.id_detail_pesanan = pesanan.id_detail_pesanan GROUP BY nama_produk ORDER BY qty DESC LIMIT 1');
+        $query = $this->db->query('SELECT nama_produk, sum(qty) as a, kategori.id_kategori,kategori.nama_kategori, tgl_transaksi FROM `pesanan` JOIN `produk` JOIN `kategori`JOIN `detail_pesanan` WHERE pesanan.id_produk = produk.id_produk AND MONTH(tgl_transaksi) = MONTH(NOW()) AND detail_pesanan.id_detail_pesanan = pesanan.id_detail_pesanan GROUP BY nama_produk ORDER BY sum(qty) DESC LIMIT 1');
         if($query->row() == null){
             return '<h6 class="fw-bold">Belum Terjadi Transaksi</h6>';
         } else {
@@ -411,7 +175,7 @@ class DashboardModel extends CI_Model
 
     public function produk_terlaris_hari()
     {
-        $query = $this->db->query('SELECT nama_produk, sum(qty) as a, kategori.id_kategori,kategori.nama_kategori, tgl_transaksi FROM `pesanan` JOIN `produk` JOIN `kategori`JOIN `detail_pesanan` WHERE pesanan.id_produk = produk.id_produk AND DAY(tgl_transaksi) = DAY(NOW()) AND detail_pesanan.id_detail_pesanan = pesanan.id_detail_pesanan GROUP BY nama_produk ORDER BY qty DESC LIMIT 1');
+        $query = $this->db->query('SELECT nama_produk, sum(qty) as a, kategori.id_kategori,kategori.nama_kategori, tgl_transaksi FROM `pesanan` JOIN `produk` JOIN `kategori`JOIN `detail_pesanan` WHERE pesanan.id_produk = produk.id_produk AND DAY(tgl_transaksi) = DAY(NOW()) AND detail_pesanan.id_detail_pesanan = pesanan.id_detail_pesanan GROUP BY nama_produk ORDER BY sum(qty) DESC LIMIT 1');
         if($query->row() == null){
             return '<h6 class="fw-bold">Belum Terjadi Transaksi</h6>';
         } else {

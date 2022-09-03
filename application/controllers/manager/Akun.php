@@ -14,7 +14,7 @@ class Akun extends CI_Controller {
 		if($this->session->userdata('authenticated')){
 			if($this->session->userdata('akses') == 'manager'){
                 $data = array(
-                    'title' => 'manager - Akun',
+                    'title' => 'MANAGER - AKUN',
                     'content' => 'manager/Akun',
 					'get_akun' => $this->AkunModel->getById($this->session->userdata('id'))
                 );
@@ -29,12 +29,10 @@ class Akun extends CI_Controller {
 		}
 	}
 
-
 	public function update(){
 		$config['upload_path']	= './assets/image/profile/';
         $config['allowed_types'] = 'jpg|jpeg|png|gif|webp'; 
         $config['file_name'] = 'Profile-'.date('ymd').'-'.substr(rand(),0, 10);
-
 
 		$this->load->library('upload', $config);
 
@@ -61,6 +59,16 @@ class Akun extends CI_Controller {
 
 		$this->db->where('id_user', $post["id_user"]);
 		$this->db->update('user', $data);
+		$this->session->set_flashdata('massage', 'Akun berhasil di update');
+		$kode_log = 'MA'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Memperbarui Akun',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
 		redirect(site_url('manager/akun'));
 	} else {
 		$post = $this->input->post();
@@ -78,9 +86,18 @@ class Akun extends CI_Controller {
 		} else {
 			$data['password'] = $post['old_password'];
 		}
-			
 			$this->db->where('id_user', $post['id_user']);
 			$this->db->update('user', $data);
+			$this->session->set_flashdata('massage', 'Akun berhasil di update');
+			$kode_log = 'MA'.date('Ymd').date('His').rand(10, 99);
+			$log = array(
+				'id_user'   => $this->session->userdata('id'),
+				'kode_log'	=> $kode_log,
+				'kegiatan'  => 'Memperbarui Akun',
+				'tanggal'   => date('Y-m-d'),
+				'waktu'     => date('H:i:s')
+			);
+			$this->db->insert('log', $log);
 			redirect(site_url('manager/akun'));
 		}
 	}

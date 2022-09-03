@@ -18,7 +18,7 @@ class Stock extends CI_Controller {
 		if($this->session->userdata('authenticated')){
 			if($this->session->userdata('akses') == 'manager'){
                 $data = array(
-                    'title' => 'manager - Stock',
+                    'title' => 'MANAGER - STOCK',
                     'content' => 'manager/Stock'
                 );
 				$data['get_produk'] = $this->ProdukModel->getALL();
@@ -48,6 +48,18 @@ class Stock extends CI_Controller {
 		
 		$this->db->where('id_produk', $post['id_produk']);
 		$this->db->update('produk', $data);
+		
+		$this->session->set_flashdata('massage', 'Berhasil Memperbarui Data');
+		$kode_log = 'ST'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Memperbarui Data',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		redirect(site_url('manager/stock'));
 	}
 	
@@ -65,6 +77,18 @@ class Stock extends CI_Controller {
 		
 		$this->db->where('id_produk', $post['id_produk']);
 		$this->db->update('produk', $data);
+		
+		$this->session->set_flashdata('massage', 'Berhasil Mereset Data');
+		$kode_log = 'PR'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Mereset Data',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		redirect(site_url('manager/stock'));
 	}
 
@@ -75,6 +99,17 @@ class Stock extends CI_Controller {
 		} else {
 			$this->data['get_produk'] = $this->ProdukModel->getBy($code);
 		}
+		
+		$kode_log = 'PR'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PRINT',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		$this->load->view('cetak/stock',$this->data);
 	}
 	
@@ -101,11 +136,32 @@ class Stock extends CI_Controller {
         
         // run dompdf
         $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+
+		$kode_log = 'PR'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PDF',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+		
 		redirect(site_url('manager/stock'));
 	}
-
+	
 	function export($code)
 	{
+		$kode_log = 'PR'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak EXCEL',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+
 		if($code == "true"){
 			$get_produk= $this->ProdukModel->getAll();
 		} else {

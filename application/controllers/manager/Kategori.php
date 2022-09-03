@@ -20,7 +20,7 @@ class Kategori extends CI_Controller {
 		if($this->session->userdata('authenticated')){
 			if($this->session->userdata('akses') == 'manager'){
                 $data = array(
-                    'title' => 'manager - Kategori',
+                    'title' => 'MANAGER - KATEGORI',
                     'content' => 'manager/Kategori',
 					'get_kategori' => $this->KategoriModel->getAll()
                 );
@@ -35,14 +35,22 @@ class Kategori extends CI_Controller {
 		}
 	}
     
-		public function print($code)
+		public function print()
 	{
         $this->data['get_kategori'] = $this->KategoriModel->getAll();
-		
+		$kode_log = 'KA'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PRINT',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
 		$this->load->view('cetak/kategori',$this->data);
 	}
 	
-	public function cetak($code)
+	public function cetak()
 	{
 		$this->load->library('pdfgenerator');
     
@@ -62,11 +70,29 @@ class Kategori extends CI_Controller {
         
         // run dompdf
         $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+		$kode_log = 'KA'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak PDF',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
 		redirect(site_url('manager/kategori'));
 	}
 
-	function export($code)
+	function export()
 	{
+		$kode_log = 'KA'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Melakukan Cetak EXCEL',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
 		
         $get_kategori = $this->KategoriModel->getAll();
 
@@ -101,30 +127,18 @@ class Kategori extends CI_Controller {
         $validation->set_rules($kategori->rules());
 		$kategori->save();
 
-        if ($validation->run()) {
-            $this->session->set_flashdata('success', 'Berhasil disimpan');
-        }
 
-        redirect(site_url('manager/kategori'));
-    }
-
-    public function edit($id = null)
-    {
-        if (!isset($id)) redirect('manager/kategori');
-
-        $kategori = $this->KategoriModel;
-        $validation = $this->form_validation;
-        $validation->set_rules($kategori->rules());
-		$kategori->update();
-
-        if ($validation->run()) {
-            $this->session->set_flashdata('success', 'Berhasil disimpan');
-        }
-
-        $data["kategori"] = $kategori->getById($id);
-        if (!$data["kategori"]) show_404();
-        
-        $this->load->view("manager/kategori/edit_form", $data);
+		$this->session->set_flashdata('massage', 'Berhasil Menambahkan Data');
+		$kode_log = 'KA'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Menambah Data',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
+		redirect(site_url('manager/kategori'));
     }
 
 	public function update()
@@ -138,13 +152,18 @@ class Kategori extends CI_Controller {
 
 		$this->db->where('id_kategori', $post["id_kategori"]);
 		$this->db->update('kategori', $data);
+		$this->session->set_flashdata('massage', 'Berhasil Memperbarui Data');
+		$kode_log = 'KA'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Mengupdate Data',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
 		redirect(site_url('manager/kategori'));
 
-		// $post = $this->input->post();
-        // $this->id_kategori = $post["id_kategori"];
-        // $this->nama_kategori = $post["nama_kategori"];
-        // $this->db->update('kategori', $this, array('id_kategori' => $post['id_kategori']));
-		// redirect(site_url('manager/kategori'));
 	}
 
     public function delete($id=null)
@@ -152,13 +171,33 @@ class Kategori extends CI_Controller {
         if (!isset($id)) show_404();
         
         if ($this->KategoriModel->delete($id)) {
-            redirect(site_url('manager/kategori'));
+			$this->session->set_flashdata('massage', 'Berhasil Menghapus Data');
+			$kode_log = 'KA'.date('Ymd').date('His').rand(10, 99);
+			$log = array(
+				'id_user'   => $this->session->userdata('id'),
+				'kode_log'	=> $kode_log,
+				'kegiatan'  => 'Menghapus Data',
+				'tanggal'   => date('Y-m-d'),
+				'waktu'     => date('H:i:s')
+			);
+			$this->db->insert('log', $log);
+			redirect(site_url('manager/kategori'));
         }
     }
 	
 	public function delete_all()
 	{
 		$this->db->empty_table('kategori');
+		$this->session->set_flashdata('massage', 'Berhasil Menghapus Semua Data');
+		$kode_log = 'KA'.date('Ymd').date('His').rand(10, 99);
+		$log = array(
+			'id_user'   => $this->session->userdata('id'),
+			'kode_log'	=> $kode_log,
+			'kegiatan'  => 'Mengapus Seluruh Data',
+			'tanggal'   => date('Y-m-d'),
+			'waktu'     => date('H:i:s')
+		);
+		$this->db->insert('log', $log);
 		redirect(site_url('manager/kategori'));
 		
 	}

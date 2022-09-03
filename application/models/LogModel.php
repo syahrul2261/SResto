@@ -4,20 +4,16 @@ class LogModel extends CI_Model
 {
     private $_table = "log";
 
-
     public function getAll()
     {
-        $this->db->join('user', 'user.id_user = log.id_user');
-        $this->db->order_by('tanggal', 'DESC');
-        return $this->db->get($this->_table)->result();
+
+        return $this->db->query('SELECT * FROM `log` JOIN user ON user.id_user = log.id_user ORDER BY tanggal DESC, waktu DESC')->result();
     }
     
     public function getById($id)
     {
         return $this->db->get_where($this->_table, ["id_log" => $id])->order_by('tanggal', 'ASC')->row();
     }
-
-
 
     public function get1()
     {
@@ -48,7 +44,7 @@ class LogModel extends CI_Model
     {
         return $this->db->query('SELECT * FROM `log` JOIN user ON user.id_user = log.id_user WHERE log.id_user = "'.$code.'"'.' AND log.tanggal >= "'.$code1.'"')->result();
     }
-    
+
     public function get7($code, $code2)
     {
         return $this->db->query('SELECT * FROM `log` JOIN user ON user.id_user = log.id_user WHERE log.id_user = "'.$code.'"'.' AND log.tanggal <= "'.$code2.'"')->result();
@@ -58,6 +54,4 @@ class LogModel extends CI_Model
     {
         return $this->db->query('SELECT * FROM `log` JOIN user ON user.id_user = log.id_user WHERE log.id_user = "'.$code.'"'.' AND  log.tanggal >= "'.$code1.'"'.' AND TANGGAL <= "'.$code2.'"')->result();
     }
-
-
 }

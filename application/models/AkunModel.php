@@ -21,6 +21,4 @@ class AkunModel extends CI_Model
         $this->db->where('akses', $code);
         return $this->db->get()->result();
     }
-
-
 }
